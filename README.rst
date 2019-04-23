@@ -22,7 +22,7 @@ c3dp
 
 design of 3D printed high pressure cell collimator
 -----------------------------------------------------------
-.. image::https://github.com/Fahima-Islam/c3dp/blob/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
+![alt text](https://raw.githubusercontent.com/Fahima-Islam/c3dp/blob/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png)
 
 
 Features
