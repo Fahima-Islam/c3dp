@@ -21,16 +21,18 @@ c3dp
 
 
 design of 3D printed high pressure cell collimator
-
-
-* Free software: MIT license
-* Documentation: https://c3dp.readthedocs.io.
+-----------------------------------------------------------
+![alt text](https://github.com/Fahima-Islam/c3dp/blob/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png)
 
 
 Features
 --------
 
-* TODO
+* Simulation of the the diffractometer
+* SImulation of the pressure cell
+* Optimization of  the collimator for the given pressure cell
+* Produced the .stl or .scad file of the collimator to be 3D printed
+* Produced the comparison in the diffraction pattern for with and without collimator
 
 Credits
 -------
