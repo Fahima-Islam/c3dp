@@ -2,7 +2,6 @@
 c3dp
 ====
 
-
 .. image:: https://img.shields.io/pypi/v/c3dp.svg
         :target: https://pypi.python.org/pypi/c3dp
 
@@ -18,12 +17,17 @@ c3dp
      :target: https://pyup.io/repos/github/fahima-islam/c3dp/
      :alt: Updates
 
-
+mcstas: http://mcstas.org/
+MCViNE: https://mcvine.org
 
 design of 3D printed high pressure cell collimator
 -----------------------------------------------------------
-https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
-https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/coll_performance.png
+
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
+   :width: 300pt
+
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/coll_performance.png
+   :width: 300pt
 
 
 Features
