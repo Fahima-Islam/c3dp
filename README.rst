@@ -39,6 +39,25 @@ Features
 * Produced the .stl or .scad file of the collimator to be 3D printed
 * Produced the comparison in the diffraction pattern for with and without collimator
 
+Installation
+--------
+* Install mcvine 
+
+.. code-block:: shell
+
+    $ conda create -n mcvine python=2.7         # create an environment for mcvine
+    $ source activate mcvine                    # activate mcvine environment
+    $ conda config --add channels conda-forge   # add conda channels
+    $ conda config --add channels diffpy
+    $ conda config --add channels mantid
+    $ conda config --add channels mcvine
+    $ conda install numpy                       # install
+    $ conda install mcvine
+
+* Install mcstast
+
+    `mcstas <http://downloads.mcstas.org/>`_
+
 Credits
 -------
 
