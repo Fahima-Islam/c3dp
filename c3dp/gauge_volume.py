@@ -14,7 +14,7 @@ def make_square(x, size):
 def theta_phi(Collimator_square, sample_point):
     p1,p2,p3,p4=Collimator_square
     pointsNum=sample_point.shape[0]
-    points=np.array([p1-sample_point,p2-sample_point,p3-sample_point,p4-sample_point]).reshape(pointsNum,4,3)
+    points=np.array([p1-sample_point,p2-sample_point,p3-sample_point,p4-sample_point])
 
     norm=np.array([np.linalg.norm(points, axis=2)]).reshape(pointsNum,4,1)
 
