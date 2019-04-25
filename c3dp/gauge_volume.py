@@ -1,7 +1,7 @@
 import numpy as np
 from shapely.geometry import Polygon
 from scipy.interpolate import griddata
-import matplotlib.pyplot as mpl
+import matplotlib.pyplot as plt
 
 
 def make_square(x, size):
@@ -14,9 +14,9 @@ def make_square(x, size):
 def theta_phi(Collimator_square, sample_point):
     p1,p2,p3,p4=Collimator_square
     pointsNum=sample_point.shape[0]
-    points=np.array([p1-sample_point,p2-sample_point,p3-sample_point,p4-sample_point])
+    points=np.array([p1-sample_point,p2-sample_point,p3-sample_point,p4-sample_point]).transpose(1,0,2)
 
-    norm=np.array([np.linalg.norm(points, axis=2)]).reshape(pointsNum,4,1)
+    norm=np.array([np.linalg.norm(points, axis=2)]).transpose(1,0,2).transpose(0,2,1)
 
 
     point = points/norm
@@ -28,18 +28,21 @@ def theta_phi(Collimator_square, sample_point):
 
 
 def gauge_volume(square_theta_phy_sample, square_theta_phy_detector):
-	gauge_volume=[]
-	theta_phiS = np.array([square_theta_phy_sample]).reshape(pointsNum, 4, 2).tolist()
-	theta_phiD = np.array([square_theta_phy_detector]).reshape(pointsNum, 4, 2).tolist()
-	for i in range(pointsNum):
-		s=Polygon(theta_phiS[i]).area
-		d=Polygon(theta_phiD[i]).area
+    gauge_volume=[]
 
-		gauge_volume.append(s-d)
-	return (gauge_volume)
+    theta_phiS_arr = np.array(square_theta_phy_sample).transpose(2, 1, 0).transpose(1, 0, 2)
+    theta_phiS = np.array(square_theta_phy_sample).transpose(2,1,0).transpose(1,0,2).tolist()
+    theta_phiD = np.array(square_theta_phy_detector).transpose(2,1,0).transpose(1,0,2).tolist()
+    for i in range(theta_phiS_arr.shape[0]):
+        s=Polygon(theta_phiS[i]).area
+        d=Polygon(theta_phiD[i]).area
+
+        gauge_volume.append(d-s)
+    return (gauge_volume)
 
 
 def making_plot(sample_points_x_y, gauge_volume ):
+    xS, yS=sample_points_x_y
     X,Y= np.meshgrid(xS,yS)
 
 
