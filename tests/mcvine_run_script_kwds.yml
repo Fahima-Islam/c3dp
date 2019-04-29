@@ -1,0 +1,8 @@
+angleMon1: -50.0
+angleMon2: 105.0
+beam: /home/fi0/Collimator_3D/c3dp/tests/../beam/clampcellSi_scattered-neutrons_1e9_det-50_105_new
+detector_size: 0.5
+sample: collimator_plastic_temperature
+sourceTosample_x: 0.0
+sourceTosample_y: 0.0
+sourceTosample_z: 0.0
