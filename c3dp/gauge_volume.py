@@ -131,11 +131,11 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume ):
     Z = griddata((xS,yS), np.array(gauge_volume), (X,Y), method='nearest')
 
     plt.figure()
-    r=plt.contour(X, Y, Z)
+    r=plt.contour( X, Y,Z)
     plt.clabel(r, inline=1, fontsize=10)
     plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'))
     plt.colorbar()
-    plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
+    # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
     plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
     plt.show()
 
