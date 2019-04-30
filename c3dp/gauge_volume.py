@@ -58,8 +58,8 @@ def theta_phi(Collimator_square, sample_point):
     point = points/norm # shape: (pointsNum,4,3)
 
     theta = np.arccos(point[:,:,2]) # z/norm=cos(theta), shape: (pointsNum, 4)
-    phi=np.arcsin(point[:,:,1]/np.sin(theta)) # y/norm=sin(theta)*sin(phi)
-
+    # phi=np.arcsin(point[:,:,1]/np.sin(theta)) # y/norm=sin(theta)*sin(phi)
+    phi = np.arctan2(point[:, :, 1], point[:, :, 0])
     return theta, phi
 
 
@@ -124,20 +124,29 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume ):
 
 
      """
-    xS, yS=sample_points_x_y_nonZero
-    X,Y= np.meshgrid(xS,yS)
+    if sample_points_x_y_nonZero.size==0:
+        print "the array does not have a non zero gauge volume"
+        # break
+
+    else:
+
+        xS, yS=sample_points_x_y_nonZero
+        X,Y= np.meshgrid(xS,yS)
 
 
-    Z = griddata((xS,yS), np.array(gauge_volume), (X,Y), method='nearest')
+        Z = griddata((xS,yS), np.array(gauge_volume), (X,Y), method='nearest')
 
-    plt.figure()
-    r=plt.contour( X, Y,Z)
-    plt.clabel(r, inline=1, fontsize=10)
-    plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'))
-    plt.colorbar()
-    # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
-    plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
-    plt.show()
+        plt.figure()
+        r=plt.contour( X, Y,Z)
+        plt.clabel(r, inline=1, fontsize=10)
+        plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'))
+        plt.xlabel('points along sample width')
+        plt.ylabel('points along sample height')
+        # plt.ylim(-0.4,0.4)
+        plt.colorbar()
+        # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
+        plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
+        plt.show()
 
 
 
