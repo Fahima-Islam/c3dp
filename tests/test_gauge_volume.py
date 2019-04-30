@@ -13,7 +13,7 @@ coll_length=380.
 collimator_outer_radius=coll_length+collimator_inner_radius
 collimator_thickness_detector=(collimator_outer_radius*collimator_thickness_sample)/collimator_inner_radius
 
-pointsNum=100
+pointsNum=500
 zS=np.linspace(-sample_height/2., sample_height/2., num=pointsNum) #sample_positions_z vertical
 yS=np.linspace(-sample_width/2., sample_width/2., num=pointsNum) #saNoNsymmetric_Resolution_Test1mple_positions_y
 xS=np.linspace(-sample_width/2., sample_width/2., num=pointsNum) #sample_positions_x
