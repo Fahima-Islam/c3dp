@@ -48,18 +48,14 @@ def theta_phi(Collimator_square, sample_point):
      """
     p1,p2,p3,p4=Collimator_square
 
-    points=np.array([p1-sample_point,p2-sample_point,p3-sample_point,p4-sample_point]) #shape: (4,pointsNum,3)
+    points = np.array([sample_point-p1, sample_point-p2, sample_point-p3, sample_point-p4])
     points=points.transpose(1,0,2) #shape: (pointsNum,4,3)
 
-    norm=np.array([np.linalg.norm(points, axis=2)]) #shape: (1,pointsNum,4)
-    norm=norm.transpose(1,0,2).transpose(0,2,1) #shape: (pointsNum,4,1)
+    theta = np.arctan2(points[:, :, 0],points[:, :, 1] )
 
+    norm_x_y=np.sqrt(points[:, :, 0]**2+points[:, :, 1]**2)
+    phi = np.arctan2(norm_x_y, points[:, :, 2])
 
-    point = points/norm # shape: (pointsNum,4,3)
-
-    theta = np.arccos(point[:,:,2]) # z/norm=cos(theta), shape: (pointsNum, 4)
-    # phi=np.arcsin(point[:,:,1]/np.sin(theta)) # y/norm=sin(theta)*sin(phi)
-    phi = np.arctan2(point[:, :, 1], point[:, :, 0])
     return theta, phi
 
 
@@ -86,7 +82,7 @@ def gauge_volume(square_theta_phy_sample, square_theta_phy_detector, sample_poin
 
     Returns
     -------
-    the tuple of positions in the sample (where the gaauge volume is non-zero) , corresponding gauge volume
+    the tuple of positions in the sample (array([y,z])) (where the gaauge volume is non-zero) , corresponding gauge volume (list)
     where the position of the sample is an array, i.e. (array([x,y]))
 
      """
@@ -101,16 +97,23 @@ def gauge_volume(square_theta_phy_sample, square_theta_phy_detector, sample_poin
     theta_phiD_array = np.array(square_theta_phy_detector).transpose(2,1,0).transpose(1,0,2)
     theta_phiD_list=theta_phiD_array.tolist()
     for i in range(theta_phiS.shape[0]):
+
         s=Polygon(theta_phiS_list[i])
         d = Polygon(theta_phiD_list[i])
-        if d.intersects(s):
-            gauge_volume.append(d.intersection(s).area/d.area)
-            sample_points_x_nonZero.append(sample_points_x_y[0,i])
+
+        if s.intersects(d):
+            gauge_volume.append(s.intersection(d).area / d.area)
+            sample_points_x_nonZero.append(sample_points_x_y[0, i])
             sample_points_y_nonZero.append(sample_points_x_y[1, i])
+
+
+        # gauge_volume.append(s.intersection(d).area/d.area)
+        # sample_points_x_nonZero.append(sample_points_x_y[0,i])
+        # sample_points_y_nonZero.append(sample_points_x_y[1, i])
     return (np.array([sample_points_x_nonZero, sample_points_y_nonZero]), gauge_volume)
 
 
-def making_plot(sample_points_x_y_nonZero, gauge_volume ):
+def making_plot(sample_points_x_y_nonZero, gauge_volume, y_upper_imit, y_lower_limit ):
     r"""
      Saved the contour of the gauge volume in different positions of the sample in "Figure directory".
 
@@ -122,19 +125,25 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume ):
     gauge_volume : list
         list of the non zero gauge volumes of different positions of the sample
 
+    y_upper_imit : float
+        the upper limit of Y-axis for the plotting view
+
+    y_lower_imit : float
+        the lower limit of Y-axis for the plotting view
 
      """
     if sample_points_x_y_nonZero.size==0:
         print "the array does not have a non zero gauge volume"
-        # break
+
 
     else:
 
         xS, yS=sample_points_x_y_nonZero
         X,Y= np.meshgrid(xS,yS)
 
+        gauge_volume=np.array(gauge_volume)
 
-        Z = griddata((xS,yS), np.array(gauge_volume), (X,Y), method='nearest')
+        Z = griddata((xS,yS), gauge_volume, (X,Y), method='nearest')
 
         plt.figure()
         r=plt.contour( X, Y,Z)
@@ -142,9 +151,9 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume ):
         plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'))
         plt.xlabel('points along sample width')
         plt.ylabel('points along sample height')
-        # plt.ylim(-0.4,0.4)
+        plt.ylim(y_lower_limit,y_upper_imit)
         plt.colorbar()
-        # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
+        plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
         plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
         plt.show()
 
