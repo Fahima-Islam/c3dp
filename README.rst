@@ -65,6 +65,10 @@ Installation
 * Install mcstast
 
     `mcstas <http://downloads.mcstas.org/>`_
+    
+ * Install shapely
+
+    `shapely <https://pypi.org/project/Shapely/>`_
 
 Credits
 -------
