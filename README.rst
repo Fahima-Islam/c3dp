@@ -29,6 +29,7 @@ design of 3D printed high pressure cell collimator
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/coll_performance.png
    :width: 300pt
    
+   gauge volume example: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/notebookg/gauge_volume.ipynb
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/figures/gauge_volume.png
    :width: 300pt
 
