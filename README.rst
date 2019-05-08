@@ -41,6 +41,13 @@ Features
 
 Installation
 --------
+* Clone the repository and execute from within and execute:
+
+.. code-block:: shell
+    $ git clone git@github.com:Fahima-Islam/c3dp.git
+    $ cd c3dp
+    $ pip install .
+
 * Install mcvine 
 
 .. code-block:: shell
