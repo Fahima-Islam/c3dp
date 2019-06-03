@@ -66,7 +66,7 @@ Installation
 * Pypi
 .. code-block:: shell
 
-$ pip install c3dp
+    $ pip install c3dp
     
 * Install mcvine 
 
