@@ -59,6 +59,8 @@ Installation
     $ cd c3dp
     
 * Anaconda (Recommended)
+.. code-block:: shell
+
     $ conda install -c fi0 c3dp
     
 * Install mcvine 
