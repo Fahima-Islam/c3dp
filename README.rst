@@ -63,6 +63,11 @@ Installation
 
     $ conda install -c fi0 c3dp
     
+* Pypi
+.. code-block:: shell
+
+$ pip install c3dp
+    
 * Install mcvine 
 
 .. code-block:: shell
