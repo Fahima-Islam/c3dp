@@ -57,8 +57,10 @@ Installation
 
     $ git clone git@github.com:Fahima-Islam/c3dp.git
     $ cd c3dp
-    $ pip install .
-
+    
+* Anaconda (Recommended)
+    $ conda install -c fi0 c3dp
+    
 * Install mcvine 
 
 .. code-block:: shell
