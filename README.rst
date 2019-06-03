@@ -44,7 +44,7 @@ Features
 * Produced the comparison in the diffraction pattern for with and without collimator
 
 Installation
---------
+-------------
 * Clone the repository and execute from within and execute:
 
 .. code-block:: shell
