@@ -11,8 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [   'numpy', 'scipy',  'h5py', 'matplotlib',
-    'lmfit',  ]
+requirements = [   'numpy', 'scipy',  'h5py', 'matplotlib', 'lmfit']
 
 setup_requirements = ['pytest-runner', ]
 
