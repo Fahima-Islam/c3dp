@@ -3,7 +3,7 @@ c3dp
 ====
   
 .. image:: https://anaconda.org/conda-forge/python-language-server/badges/version.svg
-        :target: https://anaconda.org/fi0/c3dp/badges/version.svg
+        :target: https://anaconda.org/fi0/c3dp
         
 .. image:: https://anaconda.org/conda-forge/python-language-server/badges/platforms.svg
         :target: https://anaconda.org/fi0/c3dp/badges/platforms.svg
