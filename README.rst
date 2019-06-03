@@ -2,11 +2,11 @@
 c3dp
 ====
   
-.. image:: https://anaconda.org/conda-forge/python-language-server/badges/version.svg
+.. image:: https://anaconda.org/fi0/c3dp/badges/version.svg   
         :target: https://anaconda.org/fi0/c3dp
         
-.. image:: https://anaconda.org/conda-forge/python-language-server/badges/platforms.svg
-        :target: https://anaconda.org/fi0/c3dp/badges/platforms.svg
+.. image:: https://anaconda.org/fi0/c3dp/badges/platforms.svg   
+        :target: https://anaconda.org/fi0/c3dp
     
 .. image:: https://img.shields.io/pypi/v/c3dp.svg
         :target: https://pypi.python.org/pypi/c3dp
