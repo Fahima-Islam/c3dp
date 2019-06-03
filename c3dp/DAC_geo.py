@@ -16,9 +16,9 @@ class DAC(object):
         self.girdle_height = 1.11  # mm
         self.girdle_length = 6.  # mm
 
-        self.gasket_length = 6.0  # mm
-        self.gasket_radius = 0.5  # mm
-        self.hollow_length_inGasket = 1.5  # mm
+        self.gasket_diameter = 6.0  # mm
+        self.sample_radius = 0.5  # mm
+        self.sample_height = 1.5  # mm
 
         self.seat_bottom_diameter = 17.88  # mm
         self.seat_hollow_large_cone_diameter = 5.89  # mm #seat_hollow_top_diamter
@@ -38,6 +38,9 @@ class DAC(object):
 
         self.bar_thickness = (self.body_base - self.hollow_base) / 2.
 
+
+
+
     def angle2span(self, Verticle_distance, angle):
         return (2 * Verticle_distance * np.tan(np.deg2rad(angle / 2)))
 
@@ -48,44 +51,62 @@ class DAC(object):
         return ((outsideCurve_length * insideCurve_radius) / outsideCurve_radius)
 
 
+    def crown_top_triangle_height(self):
+        return ((self.table_length/2)/np.tan(np.deg2rad(self.table_angle/2)))
+
+    def pavilion_bottom_triangle_height(self):
+        return ((self.culet_length/2)/np.tan(np.deg2rad(self.culet_angle/2)))
+
+    def pavilion_total_triangle_height (self, girdle_length=6.):
+
+        return ((self.pavilion_bottom_triangle_height()/self.culet_length)*girdle_length)
+
+    def crown_total_triangle_height(self,girdle_length=6.):
+        return ((self.crown_top_triangle_height() / self.table_length) * girdle_length)
+
+
+    def upper_orLower_anvil_height_from_center(self):
+        return (self.pavilion_total_triangle_height()+self.girdle_height\
+                                                    +self.crown_total_triangle_height()\
+                                                    -self.crown_top_triangle_height())
+
     ###### ANVIL (DIAMOND (C- diffraction)) #############
-    def anvil(self):
+    def anvil(self, girdle_length=6.):
      
 
-        self.crown_top_triangle_height=(self.table_length/2)/np.tan(np.deg2rad(self.table_angle/2))
+        crown_top_triangle_height=self.crown_top_triangle_height()
 
-        self.crown_total_triangle_height=(self.crown_top_triangle_height/self.table_length)*self.girdle_length
+        crown_total_triangle_height = self.crown_total_triangle_height(girdle_length)
 
-        self.pavilion_bottom_triangle_height=(self.culet_length/2)/np.tan(np.deg2rad(self.culet_angle/2))
+        pavilion_bottom_triangle_height=self.pavilion_bottom_triangle_height()
 
-        self.pavilion_total_triangle_height=(self.pavilion_bottom_triangle_height/self.culet_length)*self.girdle_length
+        pavilion_total_triangle_height= self.pavilion_total_triangle_height(girdle_length)
 
-        self.upper_orLower_anvil_height_from_center=self.pavilion_total_triangle_height+self.girdle_height\
-                                                    +self.crown_total_triangle_height\
-                                                    -self.crown_top_triangle_height
+        upper_orLower_anvil_height_from_center= self.upper_orLower_anvil_height_from_center()
 
 
-        crown_top_cone=operations.translate(shapes.cone(radius=500., height=self.crown_top_triangle_height),
-                                            vertical='%s *mm' % (-self.crown_top_triangle_height))
 
-        crown_total_cone=operations.translate(shapes.cone(radius=self.girdle_length/2, height=self.crown_total_triangle_height),
-                                            vertical='%s *mm' % (-self.crown_total_triangle_height))
+        crown_top_cone=operations.translate(shapes.cone(radius=500., height=crown_top_triangle_height),
+                                            vertical='%s *mm' % (-crown_top_triangle_height))
+
+        crown_total_cone=operations.translate(shapes.cone(radius=girdle_length/2, height=crown_total_triangle_height),
+                                            vertical='%s *mm' % (-crown_total_triangle_height))
 
         crown=operations.subtract(crown_total_cone,crown_top_cone)
 
-        pavilion_bottom_cone = operations.translate(shapes.cone(radius=500., height=self.pavilion_bottom_triangle_height),
-                                              vertical='%s *mm' % (-self.pavilion_bottom_triangle_height))
+        pavilion_bottom_cone = operations.translate(shapes.cone(radius=500., height=pavilion_bottom_triangle_height),
+                                              vertical='%s *mm' % (-pavilion_bottom_triangle_height))
 
         pavilion_total_cone = operations.translate(
-            shapes.cone(radius=self.girdle_length / 2, height=self.pavilion_total_triangle_height),
-            vertical='%s *mm' % (-self.pavilion_total_triangle_height))
+            shapes.cone(radius=girdle_length / 2, height=pavilion_total_triangle_height),
+            vertical='%s *mm' % (-pavilion_total_triangle_height))
 
         pavilion=operations.rotate(operations.subtract(pavilion_total_cone,pavilion_bottom_cone),
                                    transversal=1, angle='%s *degree' % (180))
 
-        girdle=shapes.cylinder(radius=self.girdle_length/2, height=self.girdle_height)
-        girdle_inplace=operations.translate(girdle, vertical='%s *mm' % (self.pavilion_total_triangle_height+self.girdle_height/2.))
-        crown_inplace= operations.translate(crown, vertical='%s *mm' % (self.pavilion_total_triangle_height+self.girdle_height+self.crown_total_triangle_height))
+        girdle=shapes.cylinder(radius=girdle_length/2, height=self.girdle_height)
+        girdle_inplace=operations.translate(girdle, vertical='%s *mm' % (pavilion_total_triangle_height+self.girdle_height/2.))
+        crown_inplace= operations.translate(crown, vertical='%s *mm' % (pavilion_total_triangle_height+self.girdle_height+crown_total_triangle_height))
 
         upper_diamond_anvil=operations.unite(operations.unite(crown_inplace, girdle_inplace), pavilion)
 
@@ -98,38 +119,56 @@ class DAC(object):
 
 
     ######## GASKET (STEEL)##########
-    def gasket(self):
-       
-        
-        solid_gasket=operations.rotate(shapes.cylinder(radius=self.gasket_radius, height=self.gasket_length),
-                                transversal = 1, angle = '%s *degree' % (90))
+    # def gasket(self):
+    #
+    #
+    #     solid_gasket=operations.rotate(shapes.cylinder(radius=self.sample_radius, height=self.gasket_diameter),
+    #                             transversal = 1, angle = '%s *degree' % (90))
+    #
+    #     self.hollow_inGasket=operations.rotate(shapes.cylinder(radius=self.sample_radius+500., height=self.sample_height),
+    #                             transversal = 1, angle = '%s *degree' % (90))
+    #
+    #     gasket=operations.subtract(solid_gasket, self.hollow_inGasket)
+    #
+    #     return(gasket)
+    #
+    # ######## GASKET HOLDER (Al) ##########
+    # def gasket_holder(self):
+    #     gasket_holder_width = self.gasket_diameter
+    #     gasket_holder_thickness= self.sample_radius
+    #     gasket_holder_height=self.pavilion_total_triangle_height*2
+    #
+    #     gasket_holder_case=shapes.block(height='%s *mm' % gasket_holder_height,
+    #                           width='%s *mm' % gasket_holder_thickness,
+    #                           thickness='%s *mm' % (gasket_holder_width))
+    #
+    #
+    #
+    #     gasket_holder=operations.subtract(operations.subtract(gasket_holder_case, self.hollow_inGasket),
+    #                                       self.anvil())
+    #     return(gasket_holder)
 
-        self.hollow_inGasket=operations.rotate(shapes.cylinder(radius=self.gasket_radius+500., height=self.hollow_length_inGasket),
-                                transversal = 1, angle = '%s *degree' % (90))
-
-        gasket=operations.subtract(solid_gasket, self.hollow_inGasket)
-
-        return(gasket)
-
-    ######## GASKET HOLDER (Al) ##########
-    def gasket_holder(self):
-        gasket_holder_width = self.gasket_length
-        gasket_holder_thickness= self.gasket_radius
-        gasket_holder_height=self.pavilion_total_triangle_height*2
-
-        gasket_holder_case=shapes.block(height='%s *mm' % gasket_holder_height,
-                              width='%s *mm' % gasket_holder_thickness,
-                              thickness='%s *mm' % (gasket_holder_width))
 
 
-        gasket_holder=operations.subtract(operations.subtract(gasket_holder_case, self.hollow_inGasket),
-                                          self.anvil())
-        return(gasket_holder)
+    ######## GSAKET SOURRENDED THE WHOLE SAMPLE (STEEL) ##########
+    def sorrounding_gasket(self):
+        gasket_height = self.pavilion_total_triangle_height() * 2
+        gasket_width = self.gasket_diameter
+
+        gasket_solid_case = shapes.cylinder(radius=gasket_width/2., height=gasket_height)
+
+        hollow_inGasket = shapes.cylinder(radius=self.sample_radius, height=self.sample_height+500.)
+
+        gasket_hollow_place_for_sample=operations.subtract(operations.subtract(gasket_solid_case, self.anvil(girdle_length=100.)),
+                                                           hollow_inGasket)
+
+        return (gasket_hollow_place_for_sample)
+
 
     ######## SEAT (STEEL) ##########
     def seat(self):
 
-        
+
         seat_hollow_angle= self.table_angle
       
 
@@ -260,7 +299,7 @@ class DAC(object):
         seat_W_piston = operations.unite(seat, piston_below_seat )
 
         seat_W_piston_below_dac= operations.translate(seat_W_piston,vertical='%s *mm'
-                                 % (-(self.pavilion_total_triangle_height +self.girdle_height)))
+                                 % (-(self.pavilion_total_triangle_height() +self.girdle_height)))
 
         seat_W_piston_above_dac = operations.rotate(operations.rotate(seat_W_piston_below_dac,
                                 transversal=1, angle='%s *degree' %(180)),
@@ -284,19 +323,16 @@ class DAC(object):
 
         return(bar_in_place)
 
+    def body_bar_rotated(self):
+        return (operations.rotate(self.body_bar(),
+                                vertical=1, angle='%s *degree' %(90)))
+
 
 
     ####### SAMPLE ######### ( the sample is a cylinder)
     def sample(self):
-        sample_Height=27.3 #mm
-        sample_Diameter=4.16 #mm
-        sample_Radius=sample_Diameter/2
 
-        ##covert to string###
-        sample_Height_str=str(sample_Height)+r'*mm'
-        sample_Radius_str=str(sample_Radius)+r'*mm'
-        ##cylindrical sample##
-        sample= shapes.cylinder(radius=sample_Radius_str, height=sample_Height_str)
+        sample= shapes.cylinder(radius=self.sample_radius, height=self.sample_height)
         return(sample)
 
 
