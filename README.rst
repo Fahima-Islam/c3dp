@@ -22,6 +22,7 @@ Features
 * Optimization of  the collimator for the given pressure cell
 * Produced the .stl or .scad file of the collimator to be 3D printed
 * Produced the comparison in the diffraction pattern for with and without collimator
+* Produced the gauge volume of the collimator
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
    :width: 300pt
