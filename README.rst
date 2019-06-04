@@ -14,6 +14,14 @@ c3dp
 
 Automated design of 3D printed collimator optimized for high pressure diffraction
 ---------------------------------------------------------------------------------
+Features
+--------
+
+* Simulation of the the diffractometer
+* SImulation of the pressure cell
+* Optimization of  the collimator for the given pressure cell
+* Produced the .stl or .scad file of the collimator to be 3D printed
+* Produced the comparison in the diffraction pattern for with and without collimator
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
    :width: 300pt
@@ -26,14 +34,6 @@ gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/not
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/figures/gauge_volume.png
    :width: 300pt
 
-Features
---------
-
-* Simulation of the the diffractometer
-* SImulation of the pressure cell
-* Optimization of  the collimator for the given pressure cell
-* Produced the .stl or .scad file of the collimator to be 3D printed
-* Produced the comparison in the diffraction pattern for with and without collimator
 
 Installation
 -------------
