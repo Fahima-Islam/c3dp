@@ -24,6 +24,9 @@ Features
 * Produced the comparison in the diffraction pattern for with and without collimator
 * Produced the gauge volume of the collimator
 
+Examples
+--------
+* Clamp cell:
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
    :width: 300pt
@@ -32,12 +35,15 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diffraction_pattern_clamp_cell.PNG
    :width: 300pt
    
+* Diamond anvil cell:
+
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/dac.png
    :width: 300pt
    
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/DAC_diffraction_pattern.PNG
    :width: 300pt
-   
+
+* Gauge volume:
 gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/notebooks/gauge_volume.ipynb
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/gauge.png
