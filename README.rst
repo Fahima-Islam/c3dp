@@ -23,9 +23,6 @@ c3dp
      :target: https://pyup.io/repos/github/fahima-islam/c3dp/
      :alt: Updates
 
-mcstas: http://mcstas.org/
-MCViNE: https://mcvine.org
-
 design of 3D printed high pressure cell collimator
 -----------------------------------------------------------
 
