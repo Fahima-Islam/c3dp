@@ -40,7 +40,7 @@ Features
    
 gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/notebooks/gauge_volume.ipynb
 
-.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/figures/gauge_volume.png
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/figures/gauge_vol.png
    :width: 300pt
 
 
