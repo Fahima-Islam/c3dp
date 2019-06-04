@@ -32,7 +32,7 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diffraction_pattern_clamp_cell.PNG
    :width: 300pt
    
-.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diamond_anvil_cell_with_collimator.png
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/dac.png
    :width: 300pt
    
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/DAC_diffraction_pattern.PNG
