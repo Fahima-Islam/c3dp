@@ -32,6 +32,9 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diffraction_pattern_clamp_cell.PNG
    :width: 300pt
    
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diamond anvil cell with collimator.png
+   :width: 300pt
+   
 gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/notebooks/gauge_volume.ipynb
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/figures/gauge_volume.png
@@ -57,26 +60,6 @@ Installation
 
     $ pip install c3dp
     
-* Install mcvine 
-
-.. code-block:: shell
-
-    $ conda create -n mcvine python=2.7         # create an environment for mcvine
-    $ source activate mcvine                    # activate mcvine environment
-    $ conda config --add channels conda-forge   # add conda channels
-    $ conda config --add channels diffpy
-    $ conda config --add channels mantid
-    $ conda config --add channels mcvine
-    $ conda install numpy                       # install
-    $ conda install mcvine
-
-* Install mcstast
-
-    `mcstas <http://downloads.mcstas.org/>`_
-    
-* Install shapely
-
-   `shapely <https://pypi.org/project/Shapely/>`_
 
 Credits
 -------
