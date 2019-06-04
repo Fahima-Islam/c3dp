@@ -32,7 +32,7 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diffraction_pattern_clamp_cell.PNG
    :width: 300pt
    
-.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diamond anvil cell with collimator.png
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diamond_anvil_cell_with_collimator.png
    :width: 300pt
    
 gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/notebooks/gauge_volume.ipynb
