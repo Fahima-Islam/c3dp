@@ -35,6 +35,9 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/diamond_anvil_cell_with_collimator.png
    :width: 300pt
    
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/DAC_diffraction_pattern.PNG
+   :width: 300pt
+   
 gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/notebooks/gauge_volume.ipynb
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/gauge_volume/figures/gauge_volume.png
