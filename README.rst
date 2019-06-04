@@ -12,8 +12,8 @@ c3dp
         :target: https://pypi.python.org/pypi/c3dp
 
 
-design of 3D printed high pressure cell collimator
------------------------------------------------------------
+Automated design of 3D printed collimator optimized for high pressure diffraction
+---------------------------------------------------------------------------------
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/Screenshot%20from%202019-04-23%2011-51-49.png
    :width: 300pt
