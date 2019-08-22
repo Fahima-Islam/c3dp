@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE SampleAssembly[
+    <!ENTITY shapeSP SYSTEM "vision_seat_pistion.xml">
+
+ <!ENTITY shapeSample SYSTEM "sample_dac.xml">
+
+ <!ENTITY shapeAnvil SYSTEM "anvil.xml">
+
+ <!ENTITY shapeGasket2 SYSTEM "gasket_at_anvil.xml">
+
+ <!ENTITY shapeGasket SYSTEM "gasket_at_sample.xml">
+
+ <!ENTITY shapeBar SYSTEM "bar.xml">
+	
+]> 
+<SampleAssembly name="ClampCell"
+   max_multiplescattering_loops_among_scatterers="1"
+   max_multiplescattering_loops_interactM_path1="1"
+   min_neutron_probability="0.01"
+ >
+      <PowderSample name="seat_piston" type="sample">
+    <Shape>
+      &shapeSP;
+    </Shape>
+    <Phase type="crystal">
+      <ChemicalFormula>Fe3Ni</ChemicalFormula>
+      <ciffile>Fe3Ni.cif</ciffile>
+    </Phase>
+  </PowderSample>
+
+  <PowderSample name="sample" type="sample">
+    <Shape>
+      &shapeSample;
+    </Shape>
+    <Phase type="crystal">
+      <ChemicalFormula>Si</ChemicalFormula>
+      <xyzfile>Si.xyz</xyzfile>
+    </Phase>
+  </PowderSample>
+
+  <PowderSample name="anvil" type="sample">
+    <Shape>
+      &shapeAnvil;
+    </Shape>
+    <Phase type="crystal">
+      <ChemicalFormula>C</ChemicalFormula>
+      <ciffile>C.cif</ciffile>
+    </Phase>
+  </PowderSample>
+
+  <PowderSample name="gasket_anvil" type="sample">
+    <Shape>
+      &shapeGasket2;
+    </Shape>
+    <Phase type="crystal">
+      <ChemicalFormula>Al</ChemicalFormula>
+      <xyzfile>Al.xyz</xyzfile>
+    </Phase>
+  </PowderSample>
+
+  <PowderSample name="gasket_sample" type="sample">
+    <Shape>
+      &shapeGasket;
+    </Shape>
+    <Phase type="crystal">
+      <ChemicalFormula>Fe3Cr</ChemicalFormula>
+      <ciffile>Fe3Cr.cif</ciffile>
+    </Phase>
+  </PowderSample>
+
+  <PowderSample name="bar" type="sample">
+    <Shape>
+      &shapeBar;
+    </Shape>
+    <Phase type="crystal">
+      <ChemicalFormula>Cu</ChemicalFormula>
+      <ciffile>Cu.cif</ciffile>
+    </Phase>
+  </PowderSample>
+ 
+
+    <LocalGeometer registry-coordinate-system="InstrumentScientist"> 
+        <Register name="seat_piston" position="(0,0,0)" orientation="(0,0,0)"/>
+ <Register name="sample" position="(0,0,0)" orientation="(0,0,0)"/>
+ <Register name="anvil" position="(0,0,0)" orientation="(0,0,0)"/>
+ <Register name="gasket_anvil" position="(0,0,0)" orientation="(0,0,0)"/>
+ <Register name="gasket_sample" position="(0,0,0)" orientation="(0,0,0)"/>
+ <Register name="bar" position="(0,0,0)" orientation="(0,0,0)"/> 
+    </LocalGeometer>
+
+    <Environment temperature="300*K"/>
+
+</SampleAssembly>
