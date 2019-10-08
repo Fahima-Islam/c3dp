@@ -24,6 +24,9 @@ Features
 * Produced the comparison in the diffraction pattern for with and without collimator
 * Produced the gauge volume of the collimator
 
+.. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/flow.png
+   :width: 300pt
+
 Examples
 --------
 * Clamp cell:
