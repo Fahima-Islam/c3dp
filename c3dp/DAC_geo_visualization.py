@@ -18,7 +18,7 @@ class DAC(object):
 
         self.gasket_diameter = 6.0  # mm
         self.sample_radius = 0.5  # mm
-        self.sample_height = 0.4 #0.2 (real height) #1.5  # mm 0.2 mm
+        self.sample_height = 0.2 #1.5  # mm 0.2 mm
 
         self.seat_bottom_diameter =18.63  #17.88  # mm
         # 18.63 is the "chamfer top length" of the piston that is calculated below (in piston section),
@@ -203,11 +203,11 @@ class DAC(object):
 
     ######## GSAKET SOURRENDED ONLY SAMPLE (Fe, Cr, Ni, Mn) ##########
     def gasket_contact_with_sample(self ):
-        sample_height = self.sample_height*0.5
 
-        hollow_inGasket = shapes.cylinder(radius='%s *mm' % (self.sample_radius), height='%s *mm' % (sample_height+500.))
 
-        solid_Gasket_Onlycontact_with_sample = shapes.cylinder(radius='%s *mm' % (self.gasket_diameter / 2.), height='%s *mm' % (sample_height))
+        hollow_inGasket = shapes.cylinder(radius='%s *mm' % (self.sample_radius), height='%s *mm' % (self.sample_height+500.))
+
+        solid_Gasket_Onlycontact_with_sample = shapes.cylinder(radius='%s *mm' % (self.gasket_diameter / 2.), height='%s *mm' % (self.sample_height))
 
 
         hollow_Gasket_Onlycontact_with_sample = operations.subtract(solid_Gasket_Onlycontact_with_sample, hollow_inGasket )
@@ -544,10 +544,9 @@ class DAC(object):
 
     ####### SAMPLE ######### ( the sample is a cylinder)
     def sample(self):
-        sample_radius = self.sample_radius*0.95
-        sample_height = self.sample_height*0.50
 
-        sample= shapes.cylinder(radius='%s *mm' % (sample_radius), height='%s *mm' % (sample_height))
+
+        sample= shapes.cylinder(radius='%s *mm' % (self.sample_radius), height='%s *mm' % (self.sample_height))
         return(sample)
 
 

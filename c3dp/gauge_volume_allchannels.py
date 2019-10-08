@@ -6,7 +6,43 @@ import os
 thisdir = os.path.dirname(__file__)
 
 
-def make_square(x, size):
+def span2angle(distance, distance_fr_sample, ):
+    return (2 * (np.rad2deg(np.arctan(distance / (2 * distance_fr_sample)))))
+
+def angle2span(Verticle_distance, angle):
+    return(2*Verticle_distance*np.tan(np.deg2rad(angle/2)))
+
+
+def make_cylindrical_surface(channel_start_from_sample_center,angle, height, length_misalignment_offset=0., height_misalignment_offset=0. ):
+
+    r"""
+     create a  cylinder which axis is along the vertical axis (z- axis)
+    Parameters
+    ----------
+    channel_start_from_sample_center : float
+        Longitudinal coordinate of the collimator (radius of the cylinder).
+    height : float
+        Height of the collimator channel ( height of the cylinder).
+    angle : degree
+        angular size of collimator channel ( curvature of the cylinder)
+    length_misalignment_offset : float
+        misalignment offset along the cylinder radius
+    height_misalignment_offset : float
+        misalignment offset along the cylinder axis
+
+    Returns
+    -------
+    the list of the four points of the collimator channel's cylindrical opening
+
+     """
+    x=channel_start_from_sample_center+length_misalignment_offset
+
+    return [[x, -(x*np.deg2rad(angle/2.)) , ((height / 2.)+height_misalignment_offset)],
+            [x, (x*np.deg2rad(angle/2.)), ((height / 2.)+height_misalignment_offset) ],
+            [x, (x*np.deg2rad(angle/2.)), ((-height / 2.)+height_misalignment_offset)],
+            [x, -(x*np.deg2rad(angle/2.)), ((-height / 2.)+height_misalignment_offset)]]
+
+def make_square(x, size,length_misalignment_offset=0., misalignment_offset=0.):
     r"""
      create a square  with the longitudinal coordinate and the height/width of the collimator  .
 
@@ -16,15 +52,135 @@ def make_square(x, size):
         Longitudinal coordinate of the collimator.
     size : float
         Height or width of the collimator (collimator is square).
+    length_misalignment_offset : float
+        misalignment offset along the cylinder radius
+    misalignment_offset : float
+        misalignment offset along the vertical  and transversal axis
+
     Returns
     -------
     the list of the four points of the collimator squared opening
 
      """
-    return [ [x, -size/2, size/2],
-			 [x, size/2, size/2],
-             [x, size/2, -size/2],
-			 [x, -size/2, -size/2]]
+    return [ [x+length_misalignment_offset, ((-size/2)+misalignment_offset), ((size/2)+misalignment_offset)],
+			 [x+length_misalignment_offset, ((size/2)+misalignment_offset), ((size/2)+misalignment_offset)],
+             [x+length_misalignment_offset, ((size/2)+misalignment_offset), ((-size/2)+misalignment_offset)],
+			 [x+length_misalignment_offset, ((-size/2)+misalignment_offset), ((-size/2)+misalignment_offset) ]]
+
+def rotation_around_z_axis(vector_point, rotation_angle):
+    r"""
+       create a vector point after rotating a vector around z axis in 3D space anticlockwise
+
+      Parameters
+      ----------
+     vector_point : list
+        list of the three coordinates of a point
+
+      rotation_angle : degree
+          angle to rotate the vector.
+
+      Returns
+      -------
+      the array of the rotated vector consisting of three coordinates of the vector
+
+       """
+
+    rotation_matrix=np.array([ [np.cos(np.deg2rad(rotation_angle)), -np.sin(np.deg2rad(rotation_angle)), 0 ], [ np.sin(np.deg2rad(rotation_angle)), np.cos(np.deg2rad(rotation_angle)), 0 ] ,
+                             [0. ,0. ,1.] ])
+
+    # vector_column=np.array(vector_point)[np.newaxis, :]
+
+    vector_column = np.array(vector_point)
+
+
+    rotated_vector=np.dot(rotation_matrix, vector_column)
+
+    return (rotated_vector)
+
+
+def rotation_around_y_axis(vector_point, rotation_angle):
+    r"""
+       create a vector point after rotating a vector around y axis in 3D space anticlockwise
+
+      Parameters
+      ----------
+     vector_point : list
+        list of the three coordinates of a point
+
+      rotation_angle : degree
+          angle to rotate the vector.
+
+      Returns
+      -------
+      the array of the rotated vector consisting of three coordinates of the vector
+
+       """
+
+    rotation_matrix = np.array([[np.cos(np.deg2rad(rotation_angle)), 0, -np.sin(np.deg2rad(rotation_angle))],
+                                [0., 1., 0.],
+                                [np.sin(np.deg2rad(rotation_angle)), 0, np.cos(np.deg2rad(rotation_angle)) ]
+                                ])
+
+    vector_column = np.array(vector_point)[np.newaxis, :]
+
+    rotated_vector = np.dot(rotation_matrix, vector_column)
+
+    return (rotated_vector)
+
+def rotation_around_x_axis(vector_point, rotation_angle):
+    r"""
+       create a vector point after rotating a vector around x axis in 3D space anticlockwise
+
+      Parameters
+      ----------
+     vector_point : list
+        list of the three coordinates of a point
+
+      rotation_angle : degree
+          angle to rotate the vector.
+
+      Returns
+      -------
+      the array of the rotated vector consisting of three coordinates of the vector
+
+       """
+
+    rotation_matrix = np.array([[1., 0., 0.],
+
+                                [0, np.cos(np.deg2rad(rotation_angle)),  -np.sin(np.deg2rad(rotation_angle)) ],
+
+                                [0, np.sin(np.deg2rad(rotation_angle)), np.cos(np.deg2rad(rotation_angle))],
+
+                                ])
+
+    vector_column = np.array(vector_point)[np.newaxis, :]
+
+    rotated_vector = np.dot(rotation_matrix, vector_column)
+
+    return (rotated_vector)
+
+
+
+
+def non_center_channels(channel_at_center):
+    r"""
+       create a square  with the longitudinal coordinate and the height/width of the collimator  .
+
+      Parameters
+      ----------
+      x : float
+          Longitudinal coordinate of the collimator.
+      size : float
+          Height or width of the collimator (collimator is square).
+      Returns
+      -------
+      the list of the four points of the collimator squared opening
+
+       """
+
+    # rotation
+
+
 
 
 def theta_phi(Collimator_square, sample_point):
@@ -114,7 +270,7 @@ def gauge_volume(square_theta_phy_sample, square_theta_phy_detector, sample_poin
 
 
 def making_plot(sample_points_x_y_nonZero, gauge_volume, y_upper_imit, y_lower_limit,
-                sample_height=10, sample_width=5., min_color=None, max_color = None):
+                sample_height=10, sample_width=5.,min_color=None, max_color = None ):
     r"""
      Saved the contour of the gauge volume in different positions of the sample in "Figure directory".
 
@@ -149,7 +305,7 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume, y_upper_imit, y_lower_l
         plt.figure()
         # r=plt.contour( X, Y,Z)
         # plt.clabel(r, inline=1, fontsize=10)
-        plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'),vmin=min_color, vmax=max_color )
+        plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'),vmin=min_color, vmax=max_color)
         plt.xlabel('points along sample width (mm)')
         plt.ylabel('points along sample height (mm)')
         plt.ylim(y_lower_limit,y_upper_imit)

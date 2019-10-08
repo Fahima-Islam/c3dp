@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -N clampcell_nosample
+#PBS -M islamff@ornl.gov
+#PBS -l nodes=5:ppn=36
+#PBS -l walltime=17:00:00
+#PBS -W group_list=cades-virtues
+#PBS -A sns
+#PBS -q skylake
+#PBS -l qos=std
+module purge
+module load anaconda2
+source activate mcvine
+#module load env/cades-virtues
+cd $PBS_O_WORKDIR
+module load PE-gnu/3.0
+module load openmpi
+#cat $PBS_NODEFILE
+#cat $PBS_NODEFILE | wc -l
+#mpirun -np 72 --hostfile $PBS_NODEFILE python -c "from mpi4py import MPI; w = MPI.COMM_WORLD; print w.Get_rank()"
+#mpirun -np 180  python -c "from mpi4py import MPI; w = MPI.COMM_WORLD; print w.Get_rank()"
+python simulation_clampcell.py
+#mpirun -np 72 --hostfile $PBS_NODEFILE python -m "mcvine.run_script" ./myinstrument.py --workdir output_NoCollimator_Nosample_2x1x40x30 --ncount 1000000000 --overwrite_datafiles --buffer_size 1000000 --mpi-mode=worker --additional-kargs=mcvine_run_script_kwds.yml
+
+
