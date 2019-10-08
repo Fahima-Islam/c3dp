@@ -15,7 +15,7 @@ def event_processing(directory, detector, angle, l1=14.699, l2=0.3, l3=0.5):
     zA=[]
     tA=[]
     pA=[]
-    pattern = "{directoryName}/*/{monitor}*.npy".format(directoryName=directory, monitor=detector)
+    pattern = "{directoryName}/*/{monitor}*.npy".format(directoryName=directory, monitor="detector")
     print pattern
     npyfiles =  glob.glob(pattern)
     assert len(npyfiles)
@@ -33,6 +33,9 @@ def event_processing(directory, detector, angle, l1=14.699, l2=0.3, l3=0.5):
     zA=np.hstack(zA)
     tA=np.hstack(tA)
     pA=np.hstack(pA)
+    # L=[]
+    # for i in range(len(xA)):
+    #     L.append(l1+l2+np.sqrt(xA[i] ** 2 + yA[i] ** 2 + (zA[i] + l3) ** 2))
     L = l1 + l2 + np.sqrt(xA ** 2 + yA ** 2 + (zA + l3) ** 2)
     angle = np.deg2rad(angle*1.)
     m = np.array([

@@ -1,7 +1,12 @@
 import os,sys, numpy as np
+import glob, sys, os
+import matplotlib
 from scipy.optimize import differential_evolution
+matplotlib.get_backend()
 from mcvine import run_script
-import unittest as unittest
+
+
+
 from mcni.neutron_storage.idf_usenumpy import totalintensity, count
 
 
@@ -9,7 +14,7 @@ thisdir = os.path.abspath(os.path.dirname(__file__))
 parentpath = os.path.join(thisdir, '..')
 beam_path=os.path.join(thisdir, '../beam')
 
-libpath = os.path.join(thisdir, '../simlib')
+libpath = os.path.join(thisdir, '../c3dp')
 
 if not libpath in sys.path:
     sys.path.insert(0, libpath)
@@ -44,15 +49,15 @@ def objective_func(params):
 
 def diffraction_pattern_calculation(params):
 
-    number_channels, channel_length = params
-    create_collimator_geometry(140,
-                               number_channels=int(number_channels),
-                               channel_length=channel_length,
-                               detector_angles=[-45, -135], outputfile=outputfile, collimator_Nosupport=True,
-                               scad_flag=True)
+    number_channels, min_dist_fr_sample_center = params
+    create_collimator_geometry(
+        coll_length=min_dist_fr_sample_center,
+        number_channels=int(number_channels),
+        channel_length=min_dist_fr_sample_center,
+        detector_angles=[-45, -135],outputfile=outputfile)
     simdir=os.path.join(
         parentpath,
-        "out/optimization-NC_%s-dist_%s" %(number_channels, channel_length))
+        "out/optimization-NC_%s-dist_%s" %(number_channels, min_dist_fr_sample_center))
     run_script.run_mpi(
         instr,simdir, beam=scattered, ncount=ncount, nodes=nodes, sample=sample,
         sourceTosample=sourceTosample, detector_size=detector_size, overwrite_datafiles=True)
@@ -62,21 +67,27 @@ def diffraction_pattern_calculation(params):
 
 def collimator_inefficiency(diffraction_pattern):
     dcs, I_d, error = diffraction_pattern
-    Si_peak_int = I_d[ (dcs<3.5) & (dcs>3)].sum()
+    sample_peak = I_d[ (dcs<3.5) & (dcs>3)].sum() #Si_peaks
 
-    Cu_peak_int=I_d[np.logical_and(dcs<2.2, dcs>2)].sum()
+    cell_peak=I_d[np.logical_and(dcs<2.2, dcs>2)].sum() #Cu_peaks
 
-    collimator_performance=(Cu_peak_int/Si_peak_int)+(1-Si_peak_int/scattered_beam_intensity)
+    collimator_inefficiency=(cell_peak/sample_peak)+(1-sample_peak/scattered_beam_intensity)
 
-    return (collimator_performance)
+    return (collimator_inefficiency)
 
 
 def optimize():
     # objective_func.counter = 0
-    params_bounds = [(2.0, 8.0), (17.0, 50.0)]
+    min_number_channels=2
+    max_number_channels=8
+    min_channel_length=20
+    max_channel_length=100
+
+    params_bounds = [(min_number_channels, max_number_channels), (min_channel_length, max_channel_length)]
     result = differential_evolution(objective_func, params_bounds,popsize=4,maxiter=10)
     with open("optimized_Collimator_Dimension", "w") as res:
         res.write(result.x)
     return(result.x)
 
 
+value=optimize()
