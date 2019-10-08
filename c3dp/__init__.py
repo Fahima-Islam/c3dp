@@ -4,4 +4,4 @@
 
 __author__ = """Fahima islam"""
 __email__ = 'ffiqnf.2017@gmail.com'
-__version__ = '0.1.0'
+__version__ = '0.2.0'
