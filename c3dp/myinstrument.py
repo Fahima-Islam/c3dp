@@ -20,7 +20,7 @@ def instrument(beam=None, sample='', angleMon1=45, angleMon2=135,  detector_size
     sample = mcvine.components.samples.SampleAssemblyFromXml('sample', samplexml)
     instrument.append(sample, position=(sourceTosample_x, sourceTosample_y, sourceTosample_z), relativeTo=a_source)
     
-    save = mcvine.components.monitors.NeutronToStorage('save', 'scattered-neutrons.mcvine')
+    save = mcvine.components.monitors.NeutronToStorage('save', '{}.mcvine'.format(samplename))
     instrument.append(save, position=(0,0,0), relativeTo=sample)
 
     from detector import Detector

@@ -1,3 +1,5 @@
+#### Geometry file (.xml file), unit cell information (.cif file) and scattering kernels file (name-scatterer.xml file) which defines the scattering formula or diffraction peaks
+
 import os,sys, numpy as np
 thisdir = os.path.abspath(os.path.dirname(__file__))
 if thisdir not in sys.path:
@@ -41,7 +43,7 @@ def sample_block(name, shape_name, formula, strutureFiletype):
 """.format(name=name, shape_name=shape_name, formula=formula, strutureFiletype=strutureFiletype)
 
 scatterers = {
-     ('outer-body', 'shapeAl', 'outer-body-geom', 'Al', 'xyz'),   # (name, shape_name, formua)
+     ('outer-body', 'shapeAl', 'outer-body-geom', 'Al', 'xyz'),   # (name, shape_name, geometry file name, formula)
      ('inner-sleeve', 'shapeCu', 'inner-sleeve-geom',  'Cu', 'xyz'),
      ('sample', 'shapeSample', 'sample_geom', 'Si', 'xyz'),
      ('collimator', 'shapeColl','coll_geometry', 'B4C', 'cif'),

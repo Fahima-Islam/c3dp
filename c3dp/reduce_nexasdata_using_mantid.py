@@ -1,6 +1,4 @@
 from mantid.simpleapi import *
-from matplotlib import pyplot as plt
-import numpy as np
 import sys
 
 thisdir = os.path.abspath(os.path.dirname(__file__))
@@ -19,7 +17,7 @@ def mantid_reduction(nexus_file, binning):
     d_sim = (x_sim[1:] + x_sim[:-1]) / 2
     I_sim = hist.readY(0)
     error=hist.readE(0)
-    return(d_sim, I_sim, error)
+    return(d_sim, I_sim.copy(), error.copy())
 
 
 
