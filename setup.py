@@ -46,6 +46,6 @@ setup(
     tests_require=test_requirements,
     url='https://github.com/fahima-islam/c3dp',
     download_url = 'https://github.com/Fahima-Islam/c3dp/archive/v0.1.0.tar.gz',
-    version='0.1.0',
+    version='0.2.0',
     zip_safe=False,
 )
