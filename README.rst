@@ -16,13 +16,13 @@ Automated design of 3D printed collimator optimized for high pressure diffractio
 ---------------------------------------------------------------------------------
 Features
 --------
-
+ description of the simulation (https://github.com/Fahima-Islam/c3dp/blob/master/docs/poster_ICANS.pdf)
 * Simulation of the the diffractometer (https://github.com/Fahima-Islam/McStas_SNAP)
-* SImulation of the pressure cell (https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/DAC_geometry_creation.ipynb)
-* Optimization of  the collimator for the given pressure cell
-* Produced the .stl or .scad file of the collimator to be 3D printed (https://github.com/Fahima-Islam/c3dp/blob/master/docs/poster_ICANS.pdf)
+* SImulation of the pressure cell (https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/DAC_geometry_creation-forSimulation.ipynb)
+* Optimization of  the collimator for the given pressure cell (https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/c3dp-Optimization_DAC%2BCOlli-50mmAway_from_Sample.ipynb)
+* Produced the .stl or .scad file of the collimator to be 3D printed (https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/DAC_geometry_creation.ipynb)
 * Produced the comparison in the diffraction pattern for with and without collimator
-* Produced the gauge volume of the collimator
+* Produced the gauge volume of the collimator (https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/gauge_volume_collimator_cylinder.ipynb)
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/flow.png
    :width: 300pt
