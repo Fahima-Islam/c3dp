@@ -2,7 +2,7 @@
 c3dp
 ====
   
-.. image:: https://anaconda.org/fi0/c3dp/badges/version.svg   
+.. image:: https://anaconda.org/fi0/c3dp/badges/version.svg 
         :target: https://anaconda.org/fi0/c3dp
         
 .. image:: https://anaconda.org/fi0/c3dp/badges/platforms.svg   
