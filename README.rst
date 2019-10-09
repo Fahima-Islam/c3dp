@@ -18,7 +18,7 @@ Features
 --------
 
 * Simulation of the the diffractometer (https://github.com/Fahima-Islam/McStas_SNAP)
-* SImulation of the pressure cell (https://github.com/Fahima-Islam/c3dp/blob/master/docs/poster_ICANS.pdf)
+* SImulation of the pressure cell (https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/DAC_geometry_creation.ipynb)
 * Optimization of  the collimator for the given pressure cell
 * Produced the .stl or .scad file of the collimator to be 3D printed (https://github.com/Fahima-Islam/c3dp/blob/master/docs/poster_ICANS.pdf)
 * Produced the comparison in the diffraction pattern for with and without collimator
