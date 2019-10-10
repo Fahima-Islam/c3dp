@@ -47,7 +47,7 @@ Examples
    :width: 300pt
 
 * Gauge volume:
-gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/gauge_volume/notebooks/gauge_volume.ipynb
+gauge volume example: https://github.com/Fahima-Islam/c3dp/blob/master/notebooks/gauge_volume_collimator_cylinder.ipynb
 
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/gauge.png
    :width: 300pt
