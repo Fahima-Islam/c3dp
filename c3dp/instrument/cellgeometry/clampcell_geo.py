@@ -6,8 +6,26 @@ import os, sys
 
 
 class Clampcell(object):
+    """A class to create the  geometry of different components of the clampcell and the sample that the cell can
+    hold in it.
+
+    """
 
     def __init__(self, total_height=False, sample_height=28.57, total_cell_height=95.758):
+        """Initialization
+
+          Initialization the total height of the cell-sample assembly for simulation
+
+          Parameters
+          ----------
+          total_height: bool
+            if the total height is sample height or cell, default is False, that means total height is the sample height
+          sample_height: float
+            the height of the sample
+          total_cell_height: float
+             the height of the
+
+          """
 
         self.sample_height=sample_height #mm
 
@@ -17,6 +35,19 @@ class Clampcell(object):
 
     ###### OUTER BODY #############
     def outer_body(self, outer_dia=32.05, cone_dia=14.59, incone_angle=2.):
+        """Get calibration
+
+             Check whether any calibration (instance) loaded
+
+             Parameters
+             ----------
+             ipts_number
+             run_number
+
+             Returns
+             -------
+             None
+             """
         Al_OutDiameter = outer_dia # mm
         Al_OutRadius=Al_OutDiameter/2
         Al_Height=self.sample_height #28.57 #mm (total height 95.758 mm)
