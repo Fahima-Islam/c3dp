@@ -24,6 +24,7 @@ install:
   - conda install numpy                       # install
   - conda install mcvine
   - conda install scipy
+  - conda install mantid-framework python=2
   - conda install shapely
   - conda install matplotlib
 
