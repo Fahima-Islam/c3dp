@@ -2,7 +2,6 @@
 # EXAMPLE:
 # change the conf file for detector angles
 # ./scripts/reduce_mantid.py mantid/sim.nxs mantid/SNAP_virtual_Definition.xml clampcellSi 0.5,0.01,4
-import unittest
 from mantid.simpleapi import *
 from matplotlib import pyplot as plt
 import os, sys, numpy as np
@@ -15,8 +14,7 @@ if not libpath in sys.path:
 if not thisdir in sys.path:
     sys.path.insert(0, thisdir)
 
-
-import reduce_nexasdata_using_mantid as reduce
+from reduction import reduce_nexasdata_using_mantid as reduce
 
 sample='collimator_plastic_temperature_masked.nxs'
 

@@ -2,7 +2,7 @@ import numpy as np
 
 import unittest
 from numpy.testing import assert_allclose
-from c3dp import gauge_volume as gv
+from gaugevol import c3dp.gaugevol.gauge_volume as gv
 
 
 class TestGaugeVolume(object):

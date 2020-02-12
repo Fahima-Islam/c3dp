@@ -1,9 +1,8 @@
 import os,sys, numpy as np
-from mcni.neutron_storage.idf_usenumpy import totalintensity, count
 from matplotlib import pyplot as plt
 from scipy.optimize import differential_evolution
 from mcvine import run_script
-# from sampleassembly_program import makeSAXML
+# from c3dp.instrument.sampleassembly import makeSAXML
 
 
 
@@ -21,13 +20,11 @@ if not libpath in sys.path:
     sys.path.insert(0, libpath)
 
 from collimator_geometry_DAC import create as create_collimator_geometry, Parameter_error
-from collimator_performance import collimator_inefficiency
-import convert2nxs as det2nxs
-import sampleassembly_program as sa
-import rotate_detector_for_reduction_mantid as rot
-import reduce_nexasdata_using_mantid as red
-import conf
-import masking_nexus_givenKernel as mask
+from exports import convert2nxs as det2nxs
+from reduction import reduce_nexasdata_using_mantid as red, rotate_detector_for_reduction_mantid as rot, \
+    masking_nexus_givenKernel as mask
+from instrument.monitor import conf
+
 
 class Peak:
     def __init__(self, label='Si 111', d_spacing=3.345, d_min=3., d_max=3.5):

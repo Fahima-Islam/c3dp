@@ -1,7 +1,7 @@
-from collimator_zigzagBlade_old import Collimator_geom, Parameter_error
-import os, sys
+from instrument.collimator import Collimator_geom
+import os
 from instrument.geometry.pml import weave
-from instrument.geometry import  operations,shapes
+from instrument.geometry import  operations
 from instrument.geometry.pml.Renderer import Renderer as base
 parent_dir = os.path.abspath(os.pardir)
 libpath = os.path.join(parent_dir, 'c3dp_source')

@@ -1,13 +1,13 @@
-import unittest
-import os, sys, glob
+import os, sys
+
 thisdir = os.path.dirname(__file__)
 libpath = os.path.join(thisdir, '../c3dp')
 if not libpath in sys.path:
     sys.path.insert(0, libpath)
 
-import convert2nxs as cx
-import rotate_detector_for_reduction_mantid as rot
-import conf
+from exports import convert2nxs as cx
+from reduction import rotate_detector_for_reduction_mantid as rot
+from instrument.monitor import conf
 
 sample='collimator_plastic_temperature'
 number_of_neutrons='10000000.0'

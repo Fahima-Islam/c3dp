@@ -1,12 +1,11 @@
-import unittest
+import os, sys
 
-import os, sys, glob
 thisdir = os.path.dirname(__file__)
 libpath = os.path.join(thisdir, '../c3dp')
 if not libpath in sys.path:
     sys.path.insert(0, libpath)
 
-import masking_nexus_givenKernel as mask
+from reduction import masking_nexus_givenKernel as mask
 
 sample='collimator_plastic_temperature.nxs'
 masked='clampcell_Si_1e11_mostCorrect_masked.nxs'
