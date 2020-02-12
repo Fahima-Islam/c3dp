@@ -33,7 +33,7 @@ services:
 
 script:
   - py.test --cov=c3dp c3dp tests
-  - flake8
+  #- flake8
 
 notifications:
   - on_success: never
