@@ -3,8 +3,6 @@ import pytest
 import numpy as np
 from collections import OrderedDict
 
-# {'C': 0.15, 'Mn': 2.00, 'P': 0.045, 'S': 0.03, 'Cr': 16.0, 'Ni': 6, 'N': 0.10, 'Fe': 75.67},
-
 
 @pytest.mark.parametrize('elements_weight_percentage_gasket, elements_weight_percentage_seat, atomic_weight, '
                          'target_elements_atomic_percentage_gasket, target_elements_atomic_percentage_seat ',
