@@ -1,4 +1,4 @@
-from instrument.atomicPercentage_from_weightPencentage import atomic_percentage_from_weight_percentage as apw
+from c3dp.instrument.atomicPercentage_from_weightPencentage import atomic_percentage_from_weight_percentage as apw
 import pytest
 import numpy as np
 from collections import OrderedDict
