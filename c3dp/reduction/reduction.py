@@ -7,8 +7,28 @@ monitor2angle = {
 }
 
 
-def event_processing(directory, detector, angle, l1=14.699, l2=0.3, l3=0.5):
-    "angle: in degrees"
+def event_processing(directory, angle, l1=14.699, l2=0.3, l3=0.5):
+    r"""
+     calculating d spacing and probability from the scattering events directory
+    ----------
+    directory : str
+        the path where the scattered neutron events are saved..
+    angle : float
+        scattering angles in degrees.
+    l1 : float
+        from source to guide exit distance in meters
+    l2 : float
+        from guide to sample distance in meters
+    l3 : float
+        from sample to detector distance in meters
+
+    Returns
+    -------
+     tuple
+        Two float numbers:
+        ``(d spacing in angstrom, probability of the scattered neutrons)``
+
+     """
     eventsA=[]
     xA=[]
     yA=[]
@@ -33,9 +53,7 @@ def event_processing(directory, detector, angle, l1=14.699, l2=0.3, l3=0.5):
     zA=np.hstack(zA)
     tA=np.hstack(tA)
     pA=np.hstack(pA)
-    # L=[]
-    # for i in range(len(xA)):
-    #     L.append(l1+l2+np.sqrt(xA[i] ** 2 + yA[i] ** 2 + (zA[i] + l3) ** 2))
+
     L = l1 + l2 + np.sqrt(xA ** 2 + yA ** 2 + (zA + l3) ** 2)
     angle = np.deg2rad(angle*1.)
     m = np.array([
@@ -45,29 +63,37 @@ def event_processing(directory, detector, angle, l1=14.699, l2=0.3, l3=0.5):
         ])
     labCoords = np.dot(m, np.array([xA, yA, zA])).T + [l3*np.sin(angle), 0, l3*np.cos(angle)]
     cos2theta = labCoords[:, 2]/np.linalg.norm(labCoords, axis=-1)
-    # twotheta = np.arccos(cos2theta) * 180./np.pi
     lamda = 2 * np.pi / (conversion.V2K * (L / tA))
     sintheta = np.sqrt((1 - cos2theta) / 2)
     d = lamda / (2 * sintheta)
     return d, pA
 
-# def reduce_monitor(path, conf, l1=14.699, l2=0.3, l3=0.5, bins=np.arange(0, 4, 0.01)):
-#     d_1, p_1 = event_processing(path, 'monitor1', conf.mon1, l1=l1, l2=l2, l3=l3)
-#     d_2, p_2 = event_processing(path, 'monitor2', conf.mon2, l1=l1, l2=l2, l3=l3)
-#
-#     import numpy as np
-#
-#     I_d1, dbb = np.histogram(d_1, bins=bins, weights=p_1)
-#     I_d2, dbb = np.histogram(d_2, bins=bins, weights=p_2)
-#
-#     dcs = (dbb[1:] + dbb[:-1]) / 2
-#
-#     errorbar_sqr_I_d1, edgesS = np.histogram(d_1, bins=bins, weights=p_1 * p_1)
-#     errorbar_sqr_I_d2, edgesS = np.histogram(d_2, bins=bins, weights=p_2 * p_2)
-#
-#     return (dcs, I_d1, np.sqrt(errorbar_sqr_I_d1), I_d2, np.sqrt(errorbar_sqr_I_d2))
 
 def reduce_all(path, conf, l1=14.699, l2=0.3, l3=0.5, bins=np.arange(0, 4, 0.01)):
+    r"""
+     reducing the scattering data to  intensities and associated errors
+    ----------
+    path : str
+        the path where the scattered neutron events are saved.
+    conf : python script
+        configuration of the monitors
+    l1 : float
+        from source to guide exit distance in meters
+    l2 : float
+        from guide to sample distance in meters
+    l3 : float
+        from sample to detector distance in meters
+    bins : ndarray
+        binning of the histogram
+
+    Returns
+    -------
+     tuple
+        Three float numbers:
+        ``(d spacing in angstrom, Intensities, uncertainties)``
+
+     """
+
     d_1, p_1 = event_processing(path, 'monitor1', conf.mon1, l1=l1, l2=l2, l3=l3)
     d_2, p_2 = event_processing(path, 'monitor2', conf.mon2, l1=l1, l2=l2, l3=l3)
 

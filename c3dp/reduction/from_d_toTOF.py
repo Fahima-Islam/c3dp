@@ -7,7 +7,7 @@ h=6.60e-34 #Planck's const (Js)
 CF=(h*1e7)/Mn #(3.952) time should be in milisecond and wavelength should be in angstrom
 
 def tof_from_d( d, angle, l1=14.699, l2=0.3, l3=0.5, xA=0.0, yA=0.0,zA=0.0):
-    "angle: in degrees"
+
     r"""
      unit conversion from d spacing to time of flight
     ----------
@@ -15,8 +15,6 @@ def tof_from_d( d, angle, l1=14.699, l2=0.3, l3=0.5, xA=0.0, yA=0.0,zA=0.0):
         d spacing in Angstrom.
     angle : float
         scattering angles in degrees.
-    angle : degree
-        angular size of collimator channel ( curvature of the cylinder)
     l1 : float
         from source to guide exit distance in meters
     l2 : float
