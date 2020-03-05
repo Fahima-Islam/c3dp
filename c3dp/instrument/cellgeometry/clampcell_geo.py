@@ -37,16 +37,20 @@ class Clampcell(object):
     def outer_body(self, outer_dia=32.05, cone_dia=14.59, incone_angle=2.):
         """Get calibration
 
-             Check whether any calibration (instance) loaded
+             creating the cylindrical outer body geometry of clampcell
 
              Parameters
              ----------
-             ipts_number
-             run_number
+             outer_dia: float
+                outer diamter of the cylinder in mm
+             cone_dia: float
+                cone diameter in mm
+             incone_angle: float
+                the angle of the cone in degree
 
              Returns
              -------
-             None
+             geometry of the outer body     
              """
         Al_OutDiameter = outer_dia # mm
         Al_OutRadius=Al_OutDiameter/2
