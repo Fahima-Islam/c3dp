@@ -24,6 +24,7 @@ optimization of the collimator geometry to produce the best configuration. A dif
 algorithm from the SciPy library was used for optimization with the objective of minimizing the
 simulated background, and a Jupyter notebook is used to integrate each of the steps of the
 package into a design and optimization work flow. 
+
 Indices and tables
 ==================
 * :ref:`genindex`
