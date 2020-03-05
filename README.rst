@@ -13,6 +13,10 @@ c3dp
     
 .. image:: https://img.shields.io/pypi/v/c3dp.svg
         :target: https://pypi.python.org/pypi/c3dp
+       
+.. image:: https://readthedocs.org/projects/c3dp/badge/?version=latest
+        :target: https://c3dp.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
 
 
 Automated design of 3D printed collimator optimized for high pressure diffraction
