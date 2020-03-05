@@ -1,22 +1,49 @@
 import numpy as np
-import math
-from instrument.geometry.pml import weave
 from instrument.geometry import shapes, operations
-import os, sys
 
 
 class DAC(object):
+    """A class to create the  geometry of different components of the Diamond anvil cell and the sample that the cell
+    can hold in it.
 
+       """
     def __init__(self, culet_angle=82., table_length=2.5, culet_length=2, girdle_height=1.11, girdle_length=6,
-                 gasket_diameter= 6.0, sample_radius = 0.5, sample_height=0.4, seat_bottom_diameter=18.63,
+                 gasket_diameter=6.0, sample_radius=0.5, sample_height=0.4, seat_bottom_diameter=18.63,
                  seat_hollow_top_diamter=5.89, seat_top_diameter=8.001, seat_hollow_tappered_height=1.9558,
                  seat_skirt_height=5.18, seat_shaft_height=6.37, vision_seat_bottom_diameter=16.51,
-                 vision_seat_top_diameter = 6.83, vision_seat_hollow_top_diamter = 6.19,
+                 vision_seat_top_diameter=6.83, vision_seat_hollow_top_diamter=6.19,
                  vision_seat_hollow_bottom_diameter =2.43, vision_seat_skirt_height = 8.38,
                  vision_seat_skirt_angle = 60, vision_seat_shaft_height= 2.006, vision_seat_shaft_diameter=5.89,
                  piston_chamfer_height=3.175, piston_chamfer_angle=45, piston_chamfer_base=24.99,
                  piston_shaft_height=23.6728, body_base= 56.007, hollow_base= 34.57, bar_height=12.94 ):
+        """Initialization
 
+               Initialization the parameters of the geometry of DAC for simulation
+
+               Parameters
+               ----------
+               culet_angle: float
+                  the angle of the culet in degree
+               table_length: float
+                 the length of the table in mm
+               culet_length: float
+                  the length of the culet in mm
+               girdle_height: float
+                  the height of girdle in mm
+               girdle_length: float
+                  the length of the girdle in mm
+               gasket_diameter : float
+                  the diameter of the gasket in mm
+               sample_radius: float
+                  the radius of the sample in mm
+               sample_height: float
+                  the height of the sample in mm
+               seat_bottom_diameter: float
+                  the diameter of the bottom of the seat in mm
+               seat_hollow_top_diamter: float
+                   the diameter of the top of the seat hollow in mm
+
+               """
         self.culet_angle = culet_angle  # degree
         self.table_angle = culet_angle  # degree
         self.table_length = table_length  # mm
