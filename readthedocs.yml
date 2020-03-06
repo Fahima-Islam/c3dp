@@ -1,4 +1,4 @@
 build:
-  image: stable
+    image: stable
 conda:
     file: condaenv.yml
