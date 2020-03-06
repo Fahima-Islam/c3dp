@@ -3,8 +3,6 @@ name: c3dp
 dependencies:
   - numpy
   - scipy
-  - lmfit
   - sphinx
   - sphinx_rtd_theme
-  - sphinxcontrib-bibtex
   - matplotlib
