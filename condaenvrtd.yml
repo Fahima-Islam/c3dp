@@ -1,0 +1,15 @@
+name: c3dp
+
+channels:
+  - conda-forge
+  - omnia
+ 
+dependencies:
+  - numpy
+  - scipy
+  - h5py
+  - lmfit
+  - sphinx
+  - sphinx_rtd_theme
+  - sphinxcontrib-bibtex
+  - matplotlib
