@@ -48,8 +48,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.napoleon',
-    'sphinxcontrib.bibtex'
+    'sphinx.ext.napoleon'
 ]
 napoleon_google_docstring = False
 napoleon_use_param = False
