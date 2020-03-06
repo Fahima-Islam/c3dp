@@ -2,7 +2,7 @@
 
 pushd %~dp0
 
-REM Command file for Sphinx documentation
+REM Command file for Sphinx documentations
 
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=python -msphinx
