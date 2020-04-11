@@ -6,4 +6,4 @@ Modules
    :glob:
    :maxdepth: 2
 
-   c3dp/*
+   c3dp/analysis/*
