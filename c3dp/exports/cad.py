@@ -1,5 +1,4 @@
-
-import SCADGen.Parser
+import c3dp.SCADGen.Parser as parse
 
 def xmlToOpenScad(filename='collimator_support_ed2.xml'):
     """converting .xml file to .scad file
@@ -14,6 +13,6 @@ def xmlToOpenScad(filename='collimator_support_ed2.xml'):
          -------
          .scad file
          """
-    p=SCADGen.Parser.Parser(filename)
+    p=parse.Parser(filename)
     p.createSCAD()
     test = p.rootelems[0]
