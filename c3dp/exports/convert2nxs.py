@@ -11,11 +11,11 @@ def create_nexus(datadir,fileTOsave, template, numberOfPixels=256,
 
          Parameters
          ----------
-         datadir: str
+         datadir: string
               name of the output directory of the simulation
-         fileTOsave: str
+         fileTOsave: string
                 name of the directory where the Nexus file will be saved
-         template: str
+         template: string
                 name of the  directory of the template.nxs file
          numberOfPixels: int
                 number of the pixela in one detector panel

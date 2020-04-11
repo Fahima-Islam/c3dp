@@ -53,7 +53,8 @@ def normalization (y, area):
 
         Returns
         -------
-        normalized curve by area
+        normalized_data:array_like
+             normalized curve by area
 
         """
 

@@ -6,12 +6,13 @@ def xmlToOpenScad(filename='collimator_support_ed2.xml'):
 
          Parameters
          ----------
-         filename: str
-              name of the .xml file
+         filename: string
+              name of the xml file
 
          Returns
          -------
-         .scad file
+         file: string
+            scad file
          """
     p=parse.Parser(filename)
     p.createSCAD()
