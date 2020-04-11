@@ -8,7 +8,7 @@ Welcome to c3dp's documentation!
    readme
    installation
    usage
-   modules
+   c3dp
    contributing
    authors
    history
@@ -23,7 +23,7 @@ collimator geometry, and simulates the neutron interaction with the collimator a
 optimization of the collimator geometry to produce the best configuration. A differential evolution
 algorithm from the SciPy library was used for optimization with the objective of minimizing the
 simulated background, and a Jupyter notebook is used to integrate each of the steps of the
-package into a design and optimization work flow. 
+package into a design and optimization work flow.
 
 Indices and tables
 ==================
