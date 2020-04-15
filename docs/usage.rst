@@ -9,8 +9,8 @@ To use c3dp in a project::
 Tutorials and Examples
 ++++++++++++++++++++++
 
-Clustering of disordered hiAPP peptide |hiAPP|
+optimization of neutron scattering instrument
 
-.. |hiAPP| image:: images/with_python.png
+.. |hiAPP| image:: image/with_python.png
    :scale: 20 %
-   :target: https://github.com/jmborr/idpflex/blob/master/notebooks/hiAPP_clustering.ipynb
+   :target: https://github.com/Fahima-Islam/c3dp/blob/documentation/notebooks/ClampCell_neutron_simulation_Example.ipynb
