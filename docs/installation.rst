@@ -12,6 +12,7 @@ To install c3dp, run this command in your terminal:
 
 .. code-block:: console
 
+    $ conda install -c fi0 c3dp (recommended) 
     $ pip install c3dp
 
 This is the preferred method to install c3dp, as it will always install the most recent stable release.
