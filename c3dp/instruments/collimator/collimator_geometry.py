@@ -1,4 +1,4 @@
-from c3dp.instrument.collimator.collimator_zigzagBlade_old import Collimator_geom
+from c3dp.instruments.collimator.collimator_zigzagBlade_old import Collimator_geom
 
 def create (coll_length, number_channels, channel_length,detector_angles=[-45,-135],multiple_collimator=True, collimator_Nosupport=True, scad_flag=False,
     outputfile='coll_geometry.xml'):

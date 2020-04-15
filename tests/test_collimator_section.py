@@ -1,4 +1,4 @@
-from c3dp.instrument.collimator.section import CollimatorSection, blade_configurations
+from c3dp.instruments.collimator.section import CollimatorSection, blade_configurations
 import numpy as np
 from collections import namedtuple
 import pytest

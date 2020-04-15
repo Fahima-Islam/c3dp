@@ -1,4 +1,4 @@
-from c3dp.instrument.cellgeometry.DAC_geo import DAC
+from c3dp.instruments.cellgeometry.DAC_geo import DAC
 import numpy as np
 
 

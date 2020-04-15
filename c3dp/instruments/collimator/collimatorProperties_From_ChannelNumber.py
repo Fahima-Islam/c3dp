@@ -7,6 +7,19 @@ class Collimator_properties(object):
 
     def __init__(self,number_of_chanels= None, front_distance =None,  channel_thickness= None,
                  blade_thickness=None ,acceptanceAngle=None, frontEndDimension = None, bigEndDimension=None, length=None ):
+        """
+
+        Parameters
+        ----------
+        number_of_chanels
+        front_distance
+        channel_thickness
+        blade_thickness
+        acceptanceAngle
+        frontEndDimension
+        bigEndDimension
+        length
+        """
 
         self.number_of_chanels = number_of_chanels
         self.blade_thickness =blade_thickness

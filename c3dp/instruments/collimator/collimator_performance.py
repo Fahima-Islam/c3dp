@@ -1,6 +1,18 @@
-import os,sys, numpy as np
+import numpy as np
 
 def collimator_inefficiency(diffraction_pattern,scattered_beam_intensity):
+    """
+
+    Parameters
+    ----------
+    diffraction_pattern
+    scattered_beam_intensity
+
+    Returns
+    -------
+
+    """
+
     dcs, I_d, error = diffraction_pattern
     Si_peak_int = I_d[ (dcs<3.5) & (dcs>3)].sum()
 

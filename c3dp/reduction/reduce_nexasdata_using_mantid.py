@@ -1,11 +1,17 @@
 from mantid.simpleapi import *
-import sys
-
-thisdir = os.path.abspath(os.path.dirname(__file__))
-if thisdir not in sys.path:
-    sys.path.insert(0, thisdir)
 
 def mantid_reduction(nexus_file, binning):
+    """
+
+    Parameters
+    ----------
+    nexus_file
+    binning
+
+    Returns
+    -------
+
+    """
     sim=Load(nexus_file)
     I_d=ConvertUnits(sim, Target='dSpacing', AlignBins=True)
 

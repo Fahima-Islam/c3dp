@@ -1,6 +1,4 @@
 import numpy as np
-
-
 Mn=1.67e-27 #Mass of Neutrons (kg)
 h=6.60e-34 #Planck's const (Js)
 
@@ -51,9 +49,6 @@ def tof_from_d( d, angle, l1=14.699, l2=0.3, l3=0.5, xA=0.0, yA=0.0,zA=0.0):
 
     return tof
 
-# t=tof_from_d(3.13,-50,)
-# print (t)
-# x=np.array([[1,2,3], [4,5,6],[7,8,9]])
-# print x[:,2]
+
 
 

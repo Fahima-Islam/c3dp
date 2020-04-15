@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 from numpy.testing import assert_allclose
-from c3dp.gaugevol import gauge_volume_allchannels as gv
+from c3dp.gaugevol import gauge_volume as gv
 
 
 class TestGaugeVolume(object):

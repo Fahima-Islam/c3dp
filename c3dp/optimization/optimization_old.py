@@ -4,7 +4,7 @@ import matplotlib
 from scipy.optimize import differential_evolution
 matplotlib.get_backend()
 from mcvine import run_script
-from c3dp.instrument import DEFAULT_INSTRUMENT_CONFIGURATION
+from c3dp.instruments import DEFAULT_INSTRUMENT_CONFIGURATION
 
 
 

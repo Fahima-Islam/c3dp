@@ -3,8 +3,7 @@ thisdir = os.path.abspath(os.path.dirname(__file__))
 import numpy as np
 from mantid2mcvine.nxs import  Events2Nxs
 
-def create_nexus(datadir,fileTOsave, template, numberOfPixels=256,
-                 detectorPanel=3, tofBinSize=0.1 ):
+def create_nexus(datadir,fileTOsave, template, numberOfPixels=589824, tofBinSize=0.1 ):
 
     """converting Numpy (.npy) file to Events Nexus (.nxs) file
 
@@ -18,9 +17,7 @@ def create_nexus(datadir,fileTOsave, template, numberOfPixels=256,
          template: string
                 name of the  directory of the template.nxs file
          numberOfPixels: int
-                number of the pixela in one detector panel
-         detectorPanel: int
-                number of the detector panel
+                number of the pixela in all detectors
          tofBinSize: float
                 the bin size for time of flight axis
 
@@ -42,8 +39,7 @@ def create_nexus(datadir,fileTOsave, template, numberOfPixels=256,
 
     events = np.hstack(events)
 
-    N = numberOfPixels*detectorPanel
-    e2n = Events2Nxs.Event2Nxs(template, npixels=2*N*N, nmonitors=0)
+    e2n = Events2Nxs.Event2Nxs(template, npixels=numberOfPixels, nmonitors=0)
 
     e2n.write(events, tofbinsize=tofBinSize, nxsfile=fileTOsave)
 

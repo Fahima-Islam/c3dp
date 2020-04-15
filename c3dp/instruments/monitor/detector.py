@@ -1,15 +1,33 @@
-import mcvine, mcvine.components
 from mcni.AbstractComponent import AbstractComponent
-from mcni.utils import conversion
 import numpy as np
 import os
-from mcni import neutron_buffer, neutron
 
 class Detector(AbstractComponent):
 
     "2D detector center a (0,0,0) and perpendicular to z"
 
     def __init__(self, name, xwidth, yheight, dx, dy, outfile, tofbinsize=0.1, start_index=0):
+        """
+        initializing the parameters
+        Parameters
+        ----------
+        name: string
+            name of the detector
+        xwidth:float
+            width of the detector
+        yheight: float
+            height of the detector
+        dx: float
+            width of the pixel
+        dy: float
+            height of the pixel
+        outfile: string
+            path of the file where the neutron events will be saved
+        tofbinsize: float
+            size of the time of flight bin
+        start_index: int
+            first pixel index of each detector
+        """
         self.name = name
         assert xwidth > 0 and yheight > 0 and dx>0 and dy>0
         self.xwidth = xwidth
@@ -22,9 +40,17 @@ class Detector(AbstractComponent):
         self.outfile = outfile
         self.tofbinsize = tofbinsize
         self.start_index = start_index
-        return
+
 
     def process(self, neutrons):
+        """
+        processing and saving the neutron events
+        Parameters
+        ----------
+        neutrons: object
+            neutron events
+
+        """
         if not len(neutrons):
             return
         from mcni.neutron_storage import neutrons_as_npyarr, ndblsperneutron # number of doubles per neutrons thats means each neutron is represented by x, y, z, vx, vy, vz, s1, s2, t, t0, p (10 double variables)
@@ -55,21 +81,48 @@ class Detector(AbstractComponent):
         events['tofChannelNo']=t[ftr]*1e6/self.tofbinsize
         events['p'] = p[ftr]
         self._save(events)
-        return
-    
 
     def _save(self, events):
+        """
+        saving the neutron events
+
+        Parameters
+        ----------
+        events: object
+            neutron events
+
+
+        """
         outdir = self._getOutputDirInProgress()
         np.save(os.path.join(outdir, self.outfile), events)
-        return
-                                    
 
     def _propagateToZ0(self, x, y, z, vx, vy, vz, t):
+        """
+        propagation of the neutrons along the z axis
+        Parameters
+        ----------
+        x: float
+            distance of neutrons traveled along x axis
+        y: float
+             distance of neutrons traveled along y axis
+        z: float
+             distance of neutrons traveled along z axis
+        vx: float
+            velocity of neutrons along x axis
+        vy: float
+            velocity of neutrons along y axis
+        vz: float
+            velocity of neutrons along z axis
+        t: float
+            neutron time of flight
+
+
+        """
         dt = -z / vz
         x += vx * dt
         y += vy * dt
         z[:] = 0
         t += dt
-        return
+
 
 

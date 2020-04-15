@@ -1,5 +1,6 @@
 import numpy as np
 from instrument.geometry import shapes, operations
+from render import renderin_the_file
 
 
 class DAC(object):
@@ -42,6 +43,14 @@ class DAC(object):
                   the diameter of the bottom of the seat in mm
                seat_hollow_top_diamter: float
                    the diameter of the top of the seat hollow in mm
+               seat_top_diameter: float
+                    the diameter of the
+               seat_hollow_tappered_height: float
+
+               seat_skirt_height: float
+
+               seat_shaft_height:
+
 
                """
         self.culet_angle = culet_angle  # degree
@@ -90,12 +99,46 @@ class DAC(object):
 
 
     def angle2span(self, Verticle_distance, angle):
+        """
+
+        Parameters
+        ----------
+        Verticle_distance
+        angle
+
+        Returns
+        -------
+
+        """
         return (2 * Verticle_distance * np.tan(np.deg2rad(angle / 2)))
 
     def span2angle(self, distance, distance_fr_sample, ):
+        """
+
+        Parameters
+        ----------
+        distance
+        distance_fr_sample
+
+        Returns
+        -------
+
+        """
         return (2 * (np.rad2deg(np.arctan(distance / (2 * distance_fr_sample)))))
 
     def size_at_sample_side(self, outsideCurve_length, outsideCurve_radius, insideCurve_radius):
+        """
+
+        Parameters
+        ----------
+        outsideCurve_length
+        outsideCurve_radius
+        insideCurve_radius
+
+        Returns
+        -------
+
+        """
         return ((outsideCurve_length * insideCurve_radius) / outsideCurve_radius)
 
 
@@ -128,6 +171,16 @@ class DAC(object):
 
     ###### ANVIL (DIAMOND (C- diffraction)) #############
     def anvil(self, girdle_length=6.):
+        """
+
+        Parameters
+        ----------
+        girdle_length
+
+        Returns
+        -------
+
+        """
 
 
         crown_top_triangle_height=self.crown_top_triangle_height()
@@ -185,40 +238,6 @@ class DAC(object):
 
 
         return( operations.unite(upper_diamond_anvil_at_positive_pt_one_from_center,lower_diamond_anvil_at_neg_pt_one_from_center   ))
-
-
-    ######## GASKET (STEEL)##########
-    ## Al is the flange connected with the flange of the anvil
-    # def gasket(self):
-    #
-    #
-    #     solid_gasket=operations.rotate(shapes.cylinder(radius=self.sample_radius, height=self.gasket_diameter),
-    #                             transversal = 1, angle = '%s *degree' % (90))
-    #
-    #     self.hollow_inGasket=operations.rotate(shapes.cylinder(radius=self.sample_radius+500., height=self.sample_height),
-    #                             transversal = 1, angle = '%s *degree' % (90))
-    #
-    #     gasket=operations.subtract(solid_gasket, self.hollow_inGasket)
-    #
-    #     return(gasket)
-    #
-    # ######## GASKET HOLDER (Al) ##########
-    # def gasket_holder(self):
-    #     gasket_holder_width = self.gasket_diameter
-    #     gasket_holder_thickness= self.sample_radius
-    #     gasket_holder_height=self.pavilion_total_triangle_height*2
-    #
-    #     gasket_holder_case=shapes.block(height='%s *mm' % gasket_holder_height,
-    #                           width='%s *mm' % gasket_holder_thickness,
-    #                           thickness='%s *mm' % (gasket_holder_width))
-    #
-    #
-    #
-    #     gasket_holder=operations.subtract(operations.subtract(gasket_holder_case, self.hollow_inGasket),
-    #                                       self.anvil())
-    #     return(gasket_holder)
-
-
 
     ######## GSAKET SOURRENDED THE WHOLE SAMPLE+ANVIL (Al+STEEL) ##########
     def sorrounding_gasket(self):
@@ -584,6 +603,41 @@ class DAC(object):
 
         sample= shapes.cylinder(radius='%s *mm' % (sample_radius), height='%s *mm' % (sample_height))
         return(sample)
+
+    def Daccell_whole(self):
+        """
+                     creating clampcell geometry by joining all of the components together
+
+                     Parameters
+                     ----------
+                     Returns
+                     -------
+                     geometry of the calampcell with sample: object
+                     """
+        return (operations.unite(operations.unite(self.anvil(), self.gasket_contact_with_anvil()), self.sample()))
+
+    def creating_geometry_xml(self, objectGeo, fileNameTosave,patheNameTOSave, scad_flag ):
+        """
+                  creating the xml file of the clampcell geometry based on if the xml file will be
+                  rendering to cad file or will be using to run the simulation
+                  using mcvine
+
+                  Parameters
+                  ----------
+                  objectGeo: object
+                     the geometry of the body  of clampcell
+                  fileNameTosave: string
+                        name of the xml geometry file to be saved
+                  patheNameTOSave: string
+                        name of the path where the xml geometry file will be saved
+                  scad_flag: boolen
+                        to indicate if the xml file will be used to render cad file
+
+                  Returns: object
+                  -------
+                  xml file of the object geometry
+                  """
+        renderin_the_file(objectGeo, fileNameTosave, patheNameTOSave, scad_flag)
 
 
 

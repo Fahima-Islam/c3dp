@@ -2,10 +2,13 @@ import numpy as np
 from instrument.geometry.pml import weave
 from instrument.geometry import shapes, operations
 from instrument.geometry.pml.Renderer import Renderer as base
-from instrument.collimator import  Collimator_support
+from support_only_for_collimator_unrefined import  Collimator_support
 
 
 class File_inc_Renderer(base):
+    """
+
+    """
     def _renderDocument(self, body):
         self.onGeometry(body)
         return
@@ -19,6 +22,18 @@ class File_inc_Renderer(base):
 
 
 def write_file(fl_name,geom,scad_flag):
+    """
+
+    Parameters
+    ----------
+    fl_name
+    geom
+    scad_flag
+
+    Returns
+    -------
+
+    """
     with open (fl_name,'wt') as file_h:
         if scad_flag:
             weave(geom,file_h,print_docs = False)
@@ -29,7 +44,9 @@ class Parameter_error (Exception):
     pass
 
 class Collimator_geom(object):
+    """
 
+    """
 
     def set_constraints(self, max_coll_height_detector=250., max_coll_width_detector=250.,
                         max_coll_length=380.,
@@ -62,7 +79,59 @@ class Collimator_geom(object):
                         no_right_border=False, no_left_border=False,
                         no_top_border = False, no_bottom_border = False,
                         collimator_parts=False): # small(58 wide x 38 deep x 33 high), medium (160, 65, 65), large(400 wide x 250 deep x 250 high)
+        """
 
+        Parameters
+        ----------
+        max_coll_height_detector
+        max_coll_width_detector
+        max_coll_length
+        min_channel_wall_thickness
+        min_channel_size
+        channel_size
+        wall_thickness
+        detector_dist_fr_sample_center
+        detector_size
+        collimator_front_end_from_center
+        truss_base_thickness
+        truss_height_factor
+        truss_curvature
+        trass_final_height_factor
+        beam_dist_support
+        touch_to_halfcircle
+        truss_blade_length
+        SNAP_acceptance_angle
+        initial_collimator_horizontal_channel_angle
+        initial_collimator_vertical_channel_angle
+        remove_blades
+        vertical_blade_index_to_remove
+        horizontal_blade_index_to_remove
+        remove_vertical_blades_manually
+        remove_horizontal_blades_manually
+        horizontal_blade_index_list_toRemove
+        vertical_blade_index_list_toRemove
+        vertical_odd_blades
+        vertical_even_blades
+        horizontal_odd_blades
+        horizontal_even_blades
+        top_border_odds
+        top_border_evens
+        bottom_border_odds
+        bottom_border_evens
+        left_border_odds
+        left_border_evens
+        right_border_odds
+        right_border_evens
+        no_right_border
+        no_left_border
+        no_top_border
+        no_bottom_border
+        collimator_parts
+
+        Returns
+        -------
+
+        """
         self.truss_blade_length = truss_blade_length
         self.truss_curvature = truss_curvature
         self.SNAP_acceptance_angle = SNAP_acceptance_angle
@@ -149,6 +218,12 @@ class Collimator_geom(object):
 
 
     def support_parameters(self):
+        """
+
+        Returns
+        -------
+
+        """
 
         Collimator_support.set_constraints(
                     max_coll_height_detector=self.max_coll_height_detector,
@@ -165,7 +240,19 @@ class Collimator_geom(object):
 
 
     def set_parameters(self, vertical_number_channels, horizontal_number_channels, channel_length,wall_thickness= None):
+        """
 
+        Parameters
+        ----------
+        vertical_number_channels
+        horizontal_number_channels
+        channel_length
+        wall_thickness
+
+        Returns
+        -------
+
+        """
         if wall_thickness is None:
             self.wall_thickness = self.min_channel_wall_thickness
         else:
@@ -291,6 +378,16 @@ class Collimator_geom(object):
 
 
     def Vertical_number_channels(self, channel_length):
+        """
+
+        Parameters
+        ----------
+        channel_length
+
+        Returns
+        -------
+
+        """
         vertical_blade_dist_fr_cell = self.vertical_outer_radius - (self.inner_radius + channel_length)
         vertical_blade_dist_fr_sample_center = vertical_blade_dist_fr_cell + self.inner_radius
         vertical_wall_angle = 0.0
@@ -305,6 +402,16 @@ class Collimator_geom(object):
 
 
     def Horizontal_number_channels(self,channel_length):
+        """
+
+        Parameters
+        ----------
+        channel_length
+
+        Returns
+        -------
+
+        """
 
         horizontal_blade_dist_fr_cell = self.horizontal_outer_radius - (self.inner_radius + channel_length)
         horizontal_blade_dist_fr_sample_center = horizontal_blade_dist_fr_cell + self.inner_radius
@@ -319,12 +426,46 @@ class Collimator_geom(object):
         return (horizontal_number_channels)
 
     def angle2span(self,Verticle_distance, angle):
+        """
+
+        Parameters
+        ----------
+        Verticle_distance
+        angle
+
+        Returns
+        -------
+
+        """
         return(2*Verticle_distance*np.tan(np.deg2rad(angle/2)))
 
     def span2angle(self,distance, distance_fr_sample, ):
+        """
+
+        Parameters
+        ----------
+        distance
+        distance_fr_sample
+
+        Returns
+        -------
+
+        """
         return(2*(np.rad2deg(np.arctan(distance / (2 * distance_fr_sample)))))
 
     def size_at_sample_side(self, outsideCurve_length, outsideCurve_radius,insideCurve_radius):
+        """
+
+        Parameters
+        ----------
+        outsideCurve_length
+        outsideCurve_radius
+        insideCurve_radius
+
+        Returns
+        -------
+
+        """
         return ((outsideCurve_length * insideCurve_radius) / outsideCurve_radius)
 
 
@@ -348,6 +489,17 @@ class Collimator_geom(object):
 
 
     def generate_box_toIntersect_big_end(self, width=None, height=None):
+        """
+
+        Parameters
+        ----------
+        width
+        height
+
+        Returns
+        -------
+
+        """
         if height is None:
             height = self.vertical_outer_radius
         else:
@@ -792,7 +944,7 @@ class Collimator_geom(object):
             top_border_list= self.generate_oneside_discrete_horizontal_channel_top_borders()[1::2]
             top_border=operations.unite(*top_border_list)
 
-        if self.top_border_evens:
+        elif self.top_border_evens:
             top_border_list = self.generate_oneside_discrete_horizontal_channel_top_borders()[0::2]
             top_border = operations.unite(*top_border_list)
 
@@ -800,7 +952,7 @@ class Collimator_geom(object):
             bottom_border_list = self.generate_oneside_discrete_horizontal_channel_bottom_borders()[1::2]
             bottom_border = operations.unite(*bottom_border_list)
 
-        if self.bottom_border_evens:
+        elif self.bottom_border_evens:
             bottom_border_list = self.generate_oneside_discrete_horizontal_channel_bottom_borders()[0::2]
             bottom_border = operations.unite(*bottom_border_list)
 
@@ -808,7 +960,7 @@ class Collimator_geom(object):
             left_border_list = self.generate_oneside_discrete_vertical_channel_left_borders()[1::2]
             left_border = operations.unite(*left_border_list)
 
-        if self.left_border_evens:
+        elif self.left_border_evens:
             left_border_list = self.generate_oneside_discrete_vertical_channel_left_borders()[0::2]
             left_border = operations.unite(*left_border_list)
 
@@ -872,6 +1024,16 @@ class Collimator_geom(object):
 
 
     def gen_one_col(self, collimator_Nosupport=True):
+        """
+
+        Parameters
+        ----------
+        collimator_Nosupport
+
+        Returns
+        -------
+
+        """
         pyr = self.solid_pyramid()
 
         big_cylinder = shapes.cylinder(radius='%s *mm' % (self.vertical_outer_radius),
@@ -977,6 +1139,18 @@ class Collimator_geom(object):
 
 
     def gen_collimators(self, detector_angles=[-45, -135], multiple_collimator=True,collimator_Nosupport=True):
+        """
+
+        Parameters
+        ----------
+        detector_angles
+        multiple_collimator
+        collimator_Nosupport
+
+        Returns
+        -------
+
+        """
 
         if multiple_collimator is True:
             rotated_coll = [operations.rotate(self.gen_one_col(collimator_Nosupport), beam="1", angle='%s*deg' % (a)) for a in
@@ -992,6 +1166,20 @@ class Collimator_geom(object):
 
     def gen_collimators_xml(self, detector_angles=[-45, -135],collimator_Nosupport=True, multiple_collimator=True, scad_flag=False,
                             coll_file="coll_geometry"):
+        """
+
+        Parameters
+        ----------
+        detector_angles
+        collimator_Nosupport
+        multiple_collimator
+        scad_flag
+        coll_file
+
+        Returns
+        -------
+
+        """
         write_file("{}.xml".format(coll_file), self.gen_collimators(detector_angles, multiple_collimator,collimator_Nosupport), scad_flag)
 
 

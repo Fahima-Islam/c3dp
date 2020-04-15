@@ -1,4 +1,4 @@
-from c3dp.optimization.pressurecell import PressureCellBase
+from c3dp.optimization.optimization_base import PressureCellBase
 from instrument.collimator.collimator_geometry_variable_channel_length_blade_thickness \
     import create as create_collimator_geometry
 
