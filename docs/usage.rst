@@ -9,8 +9,8 @@ To use c3dp in a project::
 Tutorials and Examples
 ++++++++++++++++++++++
 
-optimization of neutron scattering instrument
+optimization of neutron scattering instrument |c3dp|
 
-.. |hiAPP| image:: image/with_python.png
+.. |c3dp| image:: image/with_python.png
    :scale: 20 %
    :target: https://github.com/Fahima-Islam/c3dp/blob/documentation/notebooks/ClampCell_neutron_simulation_Example.ipynb
