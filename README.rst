@@ -33,6 +33,13 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/flow.png
    :width: 300pt
 
+Usage
+--------
+.. toctree::
+   :glob:
+   :maxdepth: 2
+
+   docs/usage
 
 
 
