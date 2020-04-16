@@ -312,7 +312,7 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume, y_upper_imit, y_lower_l
 
      """
     if sample_points_x_y_nonZero.size==0:
-        print "the array does not have a non zero gauge volume"
+        raise IOError ("the array does not have a non zero gauge volume")
 
 
     else:
@@ -337,7 +337,7 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume, y_upper_imit, y_lower_l
         plt.axvline(x=- sample_width/2., color='r', linestyle='-')
         plt.axvline(x= sample_width/2., color='r', linestyle='-')
         # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
-        plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
+        # plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
         plt.show()
 
 
