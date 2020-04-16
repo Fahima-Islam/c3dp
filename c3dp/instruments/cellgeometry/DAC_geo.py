@@ -44,13 +44,43 @@ class DAC(object):
                seat_hollow_top_diamter: float
                    the diameter of the top of the seat hollow in mm
                seat_top_diameter: float
-                    the diameter of the
+                    the diameter of the seat top in mm
                seat_hollow_tappered_height: float
-
+                    the tappered height of the hollow seat in mm
                seat_skirt_height: float
-
-               seat_shaft_height:
-
+                    the height of the seat skirt in mm
+               seat_shaft_height: float
+                    the height of the seat shaft in mm
+               vision_seat_bottom_diameter: float
+                    the diameter of the VISION seat bottom in mm
+               vision_seat_top_diameter: float
+                    the diameter of VISION seat top in mm
+               vision_seat_hollow_bottom_diameter: float
+                    the diameter of Vision seat hollow bottom in mm
+               vision_seat_skirt_height: float
+                    the height of vision seat skirt in mm
+                vision_seat_skirt_height: float
+                    the height of Vision seat skirt in mm
+                vision_seat_skirt_angle : float
+                    the anngle of Vision seat skirt in degree
+                vision_seat_shaft_height: float
+                    the height of Vision seat shaft in mm
+                vision_seat_shaft_diameter: float
+                    the diameter of Vision seat shaft in mm
+                piston_chamfer_height: float
+                    the height of piston chamfer in mm
+                piston_chamfer_angle : float
+                    angle of piston chamfer in angle
+                piston_chamfer_base: float
+                    the dimension of piston chamfer base in mm
+                piston_shaft_height: float
+                    the height of piston shaft in mm
+                body_base: float
+                    the base dimension DAC body in mm
+                hollow_base: float
+                    the hollow base dimension in mm
+                bar_height: float
+                    DAC bar height in mm
 
                """
         self.culet_angle = culet_angle  # degree
@@ -100,43 +130,57 @@ class DAC(object):
 
     def angle2span(self, Verticle_distance, angle):
         """
+        if the geometry shape is trangular , converting angle to the distance
 
         Parameters
         ----------
-        Verticle_distance
-        angle
+        Verticle_distance: float
+                the height of the triangle
+        angle: float
+            the angle opposite of the calculated side of the trangle
 
         Returns
         -------
+        the base of the trangle: float
 
         """
         return (2 * Verticle_distance * np.tan(np.deg2rad(angle / 2)))
 
-    def span2angle(self, distance, distance_fr_sample, ):
+    def span2angle(self, distance, distance_fr_sample ):
         """
+        if the geometry shape is trangular , converting distance to the angle
 
         Parameters
         ----------
-        distance
-        distance_fr_sample
+        distance: float
+                the distance subtanded by sample center
+        distance_fr_sample: float
+            the distance from sample to the object
 
         Returns
         -------
+        angle: float
+            the subtanded angle between the object and the sample
 
         """
         return (2 * (np.rad2deg(np.arctan(distance / (2 * distance_fr_sample)))))
 
     def size_at_sample_side(self, outsideCurve_length, outsideCurve_radius, insideCurve_radius):
         """
+        calculating the shorter side of the object if the object has tappered shape
 
         Parameters
         ----------
-        outsideCurve_length
-        outsideCurve_radius
-        insideCurve_radius
+        outsideCurve_length: float
+            longer side of the object
+        outsideCurve_radius:float
+            the radius of the longer side
+        insideCurve_radius: float
+            the radius of the shorter side
 
         Returns
         -------
+        shorter side of the object: float
 
         """
         return ((outsideCurve_length * insideCurve_radius) / outsideCurve_radius)
@@ -172,14 +216,16 @@ class DAC(object):
     ###### ANVIL (DIAMOND (C- diffraction)) #############
     def anvil(self, girdle_length=6.):
         """
+        creating anvil geometry as a object
 
         Parameters
         ----------
-        girdle_length
+        girdle_length: float
+            the length of the girdle
 
         Returns
         -------
-
+            anvil geometry: object
         """
 
 
@@ -614,7 +660,8 @@ class DAC(object):
                      -------
                      geometry of the calampcell with sample: object
                      """
-        return (operations.unite(operations.unite(self.anvil(), self.gasket_contact_with_anvil()), self.sample()))
+        return (operations.unite(operations.unite(operations.unite(self.anvil(), self.gasket_contact_with_anvil()),
+                                                  self.gasket_contact_with_sample()), self.sample()))
 
     def creating_geometry_xml(self, objectGeo, fileNameTosave,patheNameTOSave, scad_flag ):
         """

@@ -2,6 +2,7 @@ class Peak:
     def __init__(self, label='Si 111', d_spacing=3.345, d_min=3., d_max=3.5):
         """
         defining the  diffraction peak class
+
         Parameters
         ----------
         label: string
