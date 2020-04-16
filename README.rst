@@ -34,6 +34,7 @@ Features
    :width: 300pt
 
 .. image:: https://github.com/Fahima-Islam/c3dp/blob/documentation/figures/usage.png
+        :scale: 20 %
         :target: https://github.com/Fahima-Islam/c3dp/blob/documentation/notebooks/ClampCell_neutron_simulation_Example.ipynb
 
 
