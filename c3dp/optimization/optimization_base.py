@@ -12,13 +12,34 @@ from instruments.monitor import conf
 from peak import Peak
 
 PARENT_DIR = os.path.abspath(os.pardir)
-DEFAULT_BEAM_PATH=os.path.join(PARENT_DIR, 'beam')  # directory for possible mcvine neutron sources
-DEFAULT_NEXUS_PATH=os.path.join(PARENT_DIR, 'nexus') # directory to save the nexus files
-DEFAULT_RESULT_PATH=os.path.join(PARENT_DIR, 'results') # directory to save the resulted diffraction 1D curve
-DEFAULT_SAMPLE_PATH = os.path.join(PARENT_DIR, 'sample') # directory to save the scattering and geometry files for simulation
+
+def _safe_path_join(*args):
+    """
+    join the path and check if the path exist, if path does not exist, raising the error
+    Parameters
+    ----------
+    args: strings
+        any path to be joined
+
+    Returns
+    -------
+        path : string
+            path of any file
+
+    """
+    path = os.path.join(*args)
+    if os.path.exists(os.path.dirname(path)) is False:
+        raise IOError('{} does not exist'.format(path))
+    return path
+
+
+DEFAULT_BEAM_PATH=_safe_path_join(PARENT_DIR, 'beam')  # directory for possible mcvine neutron sources
+DEFAULT_NEXUS_PATH=_safe_path_join(PARENT_DIR, 'nexus') # directory to save the nexus files
+DEFAULT_RESULT_PATH=_safe_path_join(PARENT_DIR, 'results') # directory to save the resulted diffraction 1D curve
+DEFAULT_SAMPLE_PATH = _safe_path_join(PARENT_DIR, 'sample') # directory to save the scattering and geometry files for simulation
 DEFAULT_COLLIMATOR_GEOMETRY_FILENAME= 'coll_geometry' # default collimator geometry file name
-DEFAULT_COLLIMATOR_GEOMETRY_SAVED_PATH = os.path.join(DEFAULT_SAMPLE_PATH, DEFAULT_COLLIMATOR_GEOMETRY_FILENAME) # default path to save collimator geometry
-DEFAULT_INSTRUMENT_PATH = os.path.join(PARENT_DIR, 'instruments/myinstrument_multipleDetectors.py')
+DEFAULT_COLLIMATOR_GEOMETRY_SAVED_PATH = os.path.join(DEFAULT_SAMPLE_PATH, DEFAULT_COLLIMATOR_GEOMETRY_FILENAME) # default file name with path to save collimator geometry
+DEFAULT_INSTRUMENT_PATH = _safe_path_join(PARENT_DIR, 'instruments/myinstrument_multipleDetectors.py') # default instrument script path on which simulation will run
 
 
 #### DEFAULT peaks for components of clamp cell #################
@@ -173,36 +194,16 @@ class Base(object):
                                               *self.number_of_box_in_height[i]\
                                               *self.number_pixels_in_width[i]\
                                               *self.number_of_box_in_width[i]
-    def safe_path_join(self, *args):
-        """
-        join the path and check if the path exist, if path does not exist, raising the error
-        Parameters
-        ----------
-        args: strings
-            any path to be joined
-
-        Returns
-        -------
-            path : string
-                path of any file
-
-        """
-        path =os.path.join(*args)
-        if os.path.exists(os.path.dirname(path)) is False:
-            raise IOError('{} does not exist'.format (path) )
-        return path
-
-
 
     def source_neutrons(self):
         """
-        creating the path to the source neutrons to be fed to sample assembly
+        creating the path for the source neutrons to be fed to sample assembly
         Returns
         -------
             scattered neutrons: string
                 the path of the scattered neutron to be fed to sample assembly
         """
-        scattered = self.safe_path_join( self.beam_path, self.source_file )
+        scattered = _safe_path_join( self.beam_path, self.source_file )
         return(scattered)
 
     def create_collimator_geometry(self, params):
@@ -214,13 +215,14 @@ class Base(object):
 
         Returns
         -------
+        output directory name of the simulation: string
 
         """
         return self.sampleassembly_fileName
 
     def diffraction_pattern_calculation(self, params=[20, 20], instr=DEFAULT_INSTRUMENT_PATH, simdir=None):
         """
-
+        calculated the diffracted neutrons by the
         Parameters
         ----------
         params
@@ -260,21 +262,21 @@ class Base(object):
 
 
         if self.SNAP_definition_file is None:
-            self.SNAP_definition_file = os.path.join(self.nexus_path, 'SNAP_virtual_Definition.xml')
+            self.SNAP_definition_file = _safe_path_join(self.nexus_path, 'SNAP_virtual_Definition.xml') # calling the existing snap defition file
 
         if self.template is None:
-            self.template=os.path.join(self.nexus_path, 'template.nxs')
+            self.template=os.path.join(self.nexus_path, 'template.nxs') # the path where template output will be saved
             nxs_template.create(
                 self.SNAP_definition_file,
-                ntotpixels=self.number_of_total_DetectorPixels, outpath=self.template, pulse_time_end=1e5
+                ntotpixels=self.number_of_total_DetectorPixels, outpath=self.template, pulse_time_end=1e5 # creating template file
             )
 
-        nexus_file_path = os.path.join(self.nexus_path, '{}.nxs'.format(name))
+        nexus_file_path = os.path.join(self.nexus_path, '{}.nxs'.format(name)) # the path where nexus file of simulation will be save
 
-        det2nxs.create_nexus(simdir, nexus_file_path, self.template, numberOfPixels=self.number_of_total_DetectorPixels)
+        det2nxs.create_nexus(simdir, nexus_file_path, self.template, numberOfPixels=self.number_of_total_DetectorPixels) # creating the nexus file of the simulation
 
 
-        nexus_file_correctDet_path = os.path.join(self.nexus_path, '{}_correctDet.nxs'.format(name))
+        nexus_file_correctDet_path = os.path.join(self.nexus_path, '{}_correctDet.nxs'.format(name)) # the path where
 
 
         rot.detector_position_for_reduction(nexus_file_path, conf,
