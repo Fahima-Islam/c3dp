@@ -2,7 +2,6 @@ name: c3dp
 
 channels:
   - conda-forge
-  - omnia
   - mcvine
   - diffpy
   - mantid
@@ -11,11 +10,10 @@ dependencies:
   - numpy
   - scipy
   - h5py
+  - shapely
   - lmfit
-  - sphinx
-  - sphinx_rtd_theme
-  - sphinxcontrib-bibtex
   - matplotlib
-  - mcvine-core
+  - mcvine
+  
 
 
