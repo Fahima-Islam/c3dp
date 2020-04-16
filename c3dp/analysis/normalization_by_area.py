@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.integrate import trapz, simps
+from scipy.integrate import  simps
 
 
 def area_under_curve(y, dx, method=None):
