@@ -4,7 +4,6 @@ from scipy.optimize import differential_evolution
 from mcvine import run_script
 from mantid2mcvine.nxs import template as nxs_template
 
-from instruments import DEFAULT_INSTRUMENT_CONFIGURATION
 from instruments.collimator.collimator_support import Parameter_error
 from exports import convert2nxs as det2nxs
 from reduction import reduce_nexasdata_using_mantid as red, rotate_detector_for_reduction_mantid as rot, \
@@ -19,6 +18,8 @@ DEFAULT_RESULT_PATH=os.path.join(PARENT_DIR, 'results') # directory to save the 
 DEFAULT_SAMPLE_PATH = os.path.join(PARENT_DIR, 'sample') # directory to save the scattering and geometry files for simulation
 DEFAULT_COLLIMATOR_GEOMETRY_FILENAME= 'coll_geometry' # default collimator geometry file name
 DEFAULT_COLLIMATOR_GEOMETRY_SAVED_PATH = os.path.join(DEFAULT_SAMPLE_PATH, DEFAULT_COLLIMATOR_GEOMETRY_FILENAME) # default path to save collimator geometry
+DEFAULT_INSTRUMENT_PATH = os.path.join(PARENT_DIR, 'instruments/myinstrument_multipleDetectors.py')
+
 
 #### DEFAULT peaks for components of clamp cell #################
 Si_111_peak = Peak(label='Si 111', d_spacing=3.345, d_min=3., d_max=3.5)
@@ -88,23 +89,41 @@ class Base(object):
         ncount: int
             number of neutrons used for simulation
         sourceTosample_x: float
+            source to sample distance along X in m
         sourceTosample_y: float
+            source to sample distance along Y in m
         sourceTosample_z: float
-        moderatorTosample_z
-        angleMons
-        collimator_angles
-        sampleTodetector_z
-        detector_width
-        detector_height
-        number_pixels_in_height
-        number_pixels_in_width
-        number_of_box_in_height
-        number_of_box_in_width
-        masking
-        masked_template
-        binning
-        number_of_detectors
-        peaks
+            source to sample distance along Z in m
+        moderatorTosample_z: float
+            moderator to sample distance in m
+        angleMons: list
+            monitors angular position in degree with respect to beam axis (Z axis)
+        collimator_angles: list
+            collimator angular position in degree with respect to beam axis (Z axis)
+        sampleTodetector_z: list
+            sample detector distances in  m
+        detector_width: list
+            width of the detectors in m
+        detector_height: list
+            height of the detectors in m
+        number_pixels_in_height: int
+            number of pixels per bank along height
+        number_pixels_in_width: int
+            number of pixels per bank along width
+        number_of_box_in_height: int
+            number of bank along height
+        number_of_box_in_width: int
+            number of box along width
+        masking: bool
+            if masking is added or not
+        masked_template: string
+            the path of the mask
+        binning: list
+            list of first value, spacing and last value
+        number_of_detectors: int
+            number of detectors
+        peaks: object
+            class of the peaks of peaks label, d-spacing value, d minimum and d maximum
 
         Returns
         -------
@@ -154,23 +173,44 @@ class Base(object):
                                               *self.number_of_box_in_height[i]\
                                               *self.number_pixels_in_width[i]\
                                               *self.number_of_box_in_width[i]
-
-    def source_neutrons(self):
+    def safe_path_join(self, *args):
         """
+        join the path and check if the path exist, if path does not exist, raising the error
+        Parameters
+        ----------
+        args: strings
+            any path to be joined
 
         Returns
         -------
+            path : string
+                path of any file
 
         """
-        scattered =os.path.join(self.beam_path, self.source_file)
+        path =os.path.join(*args)
+        if os.path.exists(os.path.dirname(path)) is False:
+            raise IOError('{} does not exist'.format (path) )
+        return path
+
+
+
+    def source_neutrons(self):
+        """
+        creating the path to the source neutrons to be fed to sample assembly
+        Returns
+        -------
+            scattered neutrons: string
+                the path of the scattered neutron to be fed to sample assembly
+        """
+        scattered = self.safe_path_join( self.beam_path, self.source_file )
         return(scattered)
 
     def create_collimator_geometry(self, params):
         """
-
+        creating collimator geometry to be optimized
         Parameters
         ----------
-        params
+        params: class parameters
 
         Returns
         -------
@@ -178,7 +218,7 @@ class Base(object):
         """
         return self.sampleassembly_fileName
 
-    def diffraction_pattern_calculation(self, params=[20, 20], instr=DEFAULT_INSTRUMENT_CONFIGURATION, simdir=None):
+    def diffraction_pattern_calculation(self, params=[20, 20], instr=DEFAULT_INSTRUMENT_PATH, simdir=None):
         """
 
         Parameters
@@ -243,9 +283,7 @@ class Base(object):
         if self.masking :
             masked_file_path = os.path.join(self.nexus_path, '{}_masked.nxs'.format(name))
 
-            masked_template_path = os.path.join(self.nexus_path, '{}'.format(self.masked_template))
-
-            mask.masking(nexus_file_correctDet_path, masked_template_path, masked_file_path)
+            mask.masking(nexus_file_correctDet_path, self.masked_template, masked_file_path)
 
         else:
             masked_file_path = nexus_file_correctDet_path
