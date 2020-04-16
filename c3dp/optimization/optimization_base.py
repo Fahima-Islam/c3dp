@@ -49,7 +49,7 @@ Cu_111_peak = Peak(label='Cu 111', d_spacing=2.08, d_min=2., d_max=2.1)
 Si_220_peak = Peak(label='Si 220', d_spacing=1.9, d_min=1.86, d_max=2)
 Cu_200_peak = Peak(label='Cu 200', d_spacing=1.8, d_min=1.78, d_max=1.85)
 
-class Base(object):
+class Optimizer(object):
     """
     class to create essential steps for optimization of collimator and performing optimization
     """
