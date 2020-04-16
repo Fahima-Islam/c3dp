@@ -3,13 +3,13 @@ import  numpy as np
 import os
 import pytest
 
-DEFAULT_PARENT_DIR = os.path.abspath(os.pardir)
-DEFAULT_SAMPLE_PATH = os.path.join (DEFAULT_PARENT_DIR, 'sample')
+thisdir = os.path.dirname(__file__)
+DEFAULT_SAMPLE_PATH = os.path.join (thisdir, '../sample')
 
 @pytest.mark.parametrize( 'diffraction_peak_path, '
                          'path_toSave_scaterinfKernel_file, scaterer_type_name, kernel_type,target',
                          [
-                             (os.path.join (DEFAULT_SAMPLE_PATH, 'Si'),os.path.join(DEFAULT_PARENT_DIR, 'sample'),
+                             (os.path.join (DEFAULT_SAMPLE_PATH, 'Si'),DEFAULT_SAMPLE_PATH,
                            'sample','elastic',
 '''<?xml version="1.0"?>
 
@@ -53,5 +53,5 @@ def test_makeSKXML(diffraction_peak_path,path_toSave_scaterinfKernel_file,
     file1 = open(saved_file_name, "r+")
     calculated = list(file1.read())
     target = list(target)
-    np.testing.assert_string_equal(calculated[300] ,target[300]
+    np.testing.assert_string_equal(calculated[30] ,target[30]
                                    )
