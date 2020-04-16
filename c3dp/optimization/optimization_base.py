@@ -60,7 +60,7 @@ class Base(object):
                     nexus_path = DEFAULT_NEXUS_PATH,
                     result_path=DEFAULT_RESULT_PATH,
                     template =None,
-                    SNAP_definition_file =None,
+                    instrument_definition_file =None,
                     nodes=20,
                     sampleassembly_fileName = 'collimator_plastic',
                     path_tosave_collimator_geometry = DEFAULT_COLLIMATOR_GEOMETRY_SAVED_PATH,
@@ -102,7 +102,7 @@ class Base(object):
             path to save the diffraction results
         template: string
             path to the nexus template of instrument definition file
-        SNAP_definition_file: string
+        instrument_definition_file: string
             path to the instrument definition file
         nodes: int
             number of nodes to run the simulation
@@ -158,7 +158,7 @@ class Base(object):
         self.coll_sim = coll_sim
         self.source_file = source_file
         self.template = template
-        self.SNAP_definition_file = SNAP_definition_file
+        self.instrument_definition_file = instrument_definition_file
         self.sampleassembly_fileName = sampleassembly_fileName
         self.ncount = ncount
         self.sourceTosample_x = sourceTosample_x
@@ -269,9 +269,9 @@ class Base(object):
         overwrite_datafiles = True)
 
 
-        if self.SNAP_definition_file is None:
-            # calling the existing snap defition file
-            self.SNAP_definition_file = _safe_path_join(self.nexus_path, 'SNAP_virtual_Definition.xml')
+        if self.instrument_definition_file is None:
+            # calling the existing instrument defition file
+            self.instrument_definition_file = _safe_path_join(self.nexus_path, 'SNAP_virtual_Definition.xml')
 
 
         if self.template is None:
@@ -279,7 +279,7 @@ class Base(object):
             self.template=os.path.join(self.nexus_path, 'template.nxs')
             # creating template file
             nxs_template.create(
-                self.SNAP_definition_file,
+                self.instrument_definition_file,
                 ntotpixels=self.number_of_total_DetectorPixels, outpath=self.template, pulse_time_end=1e5
             )
 
@@ -293,7 +293,7 @@ class Base(object):
 
         #updating the nexus file with proper configuration of instrument detector geometry
         rot.detector_position_for_reduction(nexus_file_path, conf,
-                                            self.SNAP_definition_file, nexus_file_correctDet_path)
+                                            self.instrument_definition_file, nexus_file_correctDet_path)
 
         if self.masking :
             # the path where the masked file will be saved
