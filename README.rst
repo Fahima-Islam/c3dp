@@ -33,13 +33,8 @@ Features
 .. image:: https://raw.githubusercontent.com/Fahima-Islam/c3dp/master/figures/flow.png
    :width: 300pt
 
-Usage
---------
-.. toctree::
-   :glob:
-   :maxdepth: 2
-
-   docs/usage
+.. image:: https://github.com/Fahima-Islam/c3dp/blob/documentation/figures/usage.png
+        :target: https://github.com/Fahima-Islam/c3dp/blob/documentation/notebooks/ClampCell_neutron_simulation_Example.ipynb
 
 
 
