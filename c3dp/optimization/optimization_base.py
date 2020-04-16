@@ -222,14 +222,20 @@ class Base(object):
 
     def diffraction_pattern_calculation(self, params=[20, 20], instr=DEFAULT_INSTRUMENT_PATH, simdir=None):
         """
-        calculated the diffracted neutrons by the
+        calculated the diffracted neutrons by the object. running the simulation. producing 1D and 2D plot
+
         Parameters
         ----------
-        params
-        instr
-        simdir
+        params: list
+            list geometrical parameters to be optimized
+        instr: string
+            path of the instrument file on which mcvine simulation will run
+        simdir: string
+            path of the simulation output file
 
-        Returns
+        Returns:
+            diffracted intensities, d-spacing, error: tuple
+                output result
         -------
 
         """
@@ -262,35 +268,41 @@ class Base(object):
 
 
         if self.SNAP_definition_file is None:
-            self.SNAP_definition_file = _safe_path_join(self.nexus_path, 'SNAP_virtual_Definition.xml') # calling the existing snap defition file
+            # calling the existing snap defition file
+            self.SNAP_definition_file = _safe_path_join(self.nexus_path, 'SNAP_virtual_Definition.xml')
+
 
         if self.template is None:
-            self.template=os.path.join(self.nexus_path, 'template.nxs') # the path where template output will be saved
+            # the path where template output will be saved
+            self.template=os.path.join(self.nexus_path, 'template.nxs')
+            # creating template file
             nxs_template.create(
                 self.SNAP_definition_file,
-                ntotpixels=self.number_of_total_DetectorPixels, outpath=self.template, pulse_time_end=1e5 # creating template file
+                ntotpixels=self.number_of_total_DetectorPixels, outpath=self.template, pulse_time_end=1e5
             )
 
-        nexus_file_path = os.path.join(self.nexus_path, '{}.nxs'.format(name)) # the path where nexus file of simulation will be save
+        # the path where nexus file of simulation will be save
+        nexus_file_path = os.path.join(self.nexus_path, '{}.nxs'.format(name))
+        # creating the nexus file of the simulation
+        det2nxs.create_nexus(simdir, nexus_file_path, self.template, numberOfPixels=self.number_of_total_DetectorPixels)
 
-        det2nxs.create_nexus(simdir, nexus_file_path, self.template, numberOfPixels=self.number_of_total_DetectorPixels) # creating the nexus file of the simulation
+        # the path where the nexus file for updated instrument definition file will be saved
+        nexus_file_correctDet_path = os.path.join(self.nexus_path, '{}_correctDet.nxs'.format(name))
 
-
-        nexus_file_correctDet_path = os.path.join(self.nexus_path, '{}_correctDet.nxs'.format(name)) # the path where
-
-
+        #updating the nexus file with proper configuration of instrument detector geometry
         rot.detector_position_for_reduction(nexus_file_path, conf,
                                             self.SNAP_definition_file, nexus_file_correctDet_path)
 
         if self.masking :
+            # the path where the masked file will be saved
             masked_file_path = os.path.join(self.nexus_path, '{}_masked.nxs'.format(name))
-
             mask.masking(nexus_file_correctDet_path, self.masked_template, masked_file_path)
 
         else:
             masked_file_path = nexus_file_correctDet_path
 
         binning = self.binning
+        # reduction from nexus event file
         d_sim, I_sim, error = red.mantid_reduction(masked_file_path, binning)
 
         plt.figure()
@@ -305,14 +317,16 @@ class Base(object):
 
     def collimator_inefficiency(self, params):
         """
+        calculating collimator inefficiency
 
         Parameters
         ----------
-        params
-
+        params: list
+            list geometrical parameters to be optimized
         Returns
         -------
-
+        collimator inefficiency: float
+            the inverse of the perforamce of the collimator
         """
         dcs, I_d, error = self.diffraction_pattern_calculation (params)
         sample_peaks = self.peaks['sample']
@@ -329,13 +343,16 @@ class Base(object):
 
     def collimator_performance (self, params):
         """
+        calculating collimator performance
 
         Parameters
         ----------
-        params
-
+        params: list
+            list geometrical parameters to be optimized
         Returns
         -------
+        collimator performance: float
+            the inverse of the inefficiency of the collimator
 
         """
         return (1/self.collimator_inefficiency(params))
@@ -343,13 +360,16 @@ class Base(object):
 
     def objective_func(self,params):
         """
+        objective function for the optimization of collimator geometry
 
         Parameters
         ----------
-        params
+        params: list
+            list geometrical parameters to be optimized
 
         Returns
         -------
+            collimator inefficiency to be minimized: float
 
         """
         try:
@@ -360,16 +380,20 @@ class Base(object):
 
     def optimize(self, params_bounds = [(2.0, 8.0), (17.0, 50.0)], population_size=4, maximum_iteration =5):
         """
+        optimizing collimator geometry to minimize collimator inefficiency
 
         Parameters
         ----------
-        params_bounds
-        population_size
-        maximum_iteration
+        params_bounds: list
+            list of the geometrical parameters to be optimized
+        population_size: int
+            number of population for simulation
+        maximum_iteration: int
+            maximum iteration per simulation
 
         Returns
         -------
-
+        optimized values: list of floats
         """
         # objective_func.counter = 0
 
