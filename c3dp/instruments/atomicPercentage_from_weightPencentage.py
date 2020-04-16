@@ -2,14 +2,18 @@ from collections import OrderedDict
 
 def atomic_percentage_from_weight_percentage(weight_percentage=OrderedDict(), atomic_weight=OrderedDict()):
     """
-
+    calculating atomic percentage from weight percentage
     Parameters
     ----------
-    weight_percentage
-    atomic_weight
+    weight_percentage: ordered dictionary
+        elements as keys and their weight percentage as values in a component
+    atomic_weight: ordered dictionary
+        elements as keys and their atomic weights as values in a component
 
     Returns
     -------
+    atomic percentage: ordered dictionary
+            elements as keys and their atomic percentage as values in a component
 
     """
     number_of_atoms = {}
