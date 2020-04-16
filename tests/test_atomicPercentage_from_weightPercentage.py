@@ -40,6 +40,26 @@ from collections import OrderedDict
 def test_atomic_percentage_from_weight_percentage(elements_weight_percentage_gasket, elements_weight_percentage_seat,
                                                   atomic_weight, target_elements_atomic_percentage_gasket,
                                                   target_elements_atomic_percentage_seat):
+    """
+    testing atomic percentage from weight percentage function
+
+    Parameters
+    ----------
+    elements_weight_percentage_gasket:ordered dictionary
+        elements as keys and their weight percentage as values in gasket of DAC
+    elements_weight_percentage_seat:ordered dictionary
+        elements as keys and their weight percentage as values in seat of DAC
+    atomic_weight: ordered dictionary
+        elements as keys and their atomic weights as values
+    target_elements_atomic_percentage_gasket: ordered dictionary
+        elements as keys and their atomic percentage as values in gasket
+    target_elements_atomic_percentage_seat: ordered dictionary
+        elements as keys and their atomic percentage as values in seat
+
+    Returns
+    -------
+
+    """
 
     elements_atomic_percentage_gasket = apw(elements_weight_percentage_gasket, atomic_weight)
     elements_atomic_percentage_seat = apw(elements_weight_percentage_seat, atomic_weight)
