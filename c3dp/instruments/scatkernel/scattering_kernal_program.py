@@ -49,7 +49,9 @@ def _kernel_block(kernel_type, Dd_over_d= None, DebyeWaller_factor=None, scatter
 
 def makeSKXML(kernel_type, path_ToSave_ScatteringKernel, scatterer_type_name,scatterer=None,absorption=0,scattering=1,transmission=3,
               Dd_over_d=1e-5, DebyeWaller_factor=1, E=None, S_Q_E=None,Qmin=None, Qmax=None ):
-   """  making scattering kernel xml file
+   """
+   making scattering kernel xml file
+   
                       Parameters
                       ----------
                       scatterer: string
