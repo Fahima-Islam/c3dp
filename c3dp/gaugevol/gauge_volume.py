@@ -315,30 +315,28 @@ def making_plot(sample_points_x_y_nonZero, gauge_volume, y_upper_imit, y_lower_l
         raise IOError ("the array does not have a non zero gauge volume")
 
 
-    else:
+    xS, yS=sample_points_x_y_nonZero
+    X,Y= np.meshgrid(xS,yS)
 
-        xS, yS=sample_points_x_y_nonZero
-        X,Y= np.meshgrid(xS,yS)
+    gauge_volume=np.array(gauge_volume)
 
-        gauge_volume=np.array(gauge_volume)
+    Z = griddata((xS,yS), gauge_volume, (X,Y), method='nearest')
 
-        Z = griddata((xS,yS), gauge_volume, (X,Y), method='nearest')
-
-        plt.figure()
-        # r=plt.contour( X, Y,Z)
-        # plt.clabel(r, inline=1, fontsize=10)
-        plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'),vmin=min_color, vmax=max_color)
-        plt.xlabel('points along sample width (mm)')
-        plt.ylabel('points along sample height (mm)')
-        plt.ylim(y_lower_limit,y_upper_imit)
-        plt.colorbar()
-        plt.axhline(y=-sample_height/2., color='r', linestyle='-')
-        plt.axhline(y=sample_height/2., color='r', linestyle='-')
-        plt.axvline(x=- sample_width/2., color='r', linestyle='-')
-        plt.axvline(x= sample_width/2., color='r', linestyle='-')
-        # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
-        # plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
-        plt.show()
+    plt.figure()
+    # r=plt.contour( X, Y,Z)
+    # plt.clabel(r, inline=1, fontsize=10)
+    plt.pcolormesh(X, Y, Z, cmap = plt.get_cmap('rainbow'),vmin=min_color, vmax=max_color)
+    plt.xlabel('points along sample width (mm)')
+    plt.ylabel('points along sample height (mm)')
+    plt.ylim(y_lower_limit,y_upper_imit)
+    plt.colorbar()
+    plt.axhline(y=-sample_height/2., color='r', linestyle='-')
+    plt.axhline(y=sample_height/2., color='r', linestyle='-')
+    plt.axvline(x=- sample_width/2., color='r', linestyle='-')
+    plt.axvline(x= sample_width/2., color='r', linestyle='-')
+    # plt.scatter(xS,yS ,marker = 'o', c = 'b', s = 5, zorder = 10)
+    # plt.savefig(os.path.join(thisdir, '../figures/{sample}.png'.format(sample='gauge_volume')))
+    plt.show()
 
 
 
