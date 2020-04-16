@@ -1,7 +1,7 @@
 from optimization_base import Base
 from instruments.collimator.collimator_geometry_zigzag import create as create_collimator_geometry
 
-class Collimators(Base):
+class InstrumentComponent(Base):
     """
     changing the collimator geometry to get optimize geometry of collimator
     """
