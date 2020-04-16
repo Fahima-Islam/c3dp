@@ -68,6 +68,7 @@ class Base(object):
                     collimator_detector_height = 65.,
                     min_channel_wall_thickness = 1,
                     min_channel_size = 3.,
+                    coll_front_end_from_center =17.,
                     multiple_collimator = False,
                     collimator_Nosupport = True,
                     scad_flag = False,
@@ -184,6 +185,7 @@ class Base(object):
         self.collimator_detector_width = collimator_detector_width
         self.collimator_detector_height = collimator_detector_height
         self.min_channel_wall_thickness = min_channel_wall_thickness
+        self.coll_front_end_from_center = coll_front_end_from_center
         self.min_channel_size = min_channel_size
         self.multiple_collimator = multiple_collimator
         self.collimator_Nosupport = collimator_Nosupport
