@@ -51,9 +51,11 @@ def makeSKXML(kernel_type, path_ToSave_ScatteringKernel, scatterer_type_name,sca
               Dd_over_d=1e-5, DebyeWaller_factor=1, E=None, S_Q_E=None,Qmin=None, Qmax=None ):
    """
    making scattering kernel xml file
-   
+
                       Parameters
                       ----------
+                      kernel_type: string
+                        if the 'elastic or inelastic' kernel to specify
                       scatterer: string
                          peaks location of the scatterer
                       path_ToSave_ScatteringKernel : string
