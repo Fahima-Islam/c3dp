@@ -1,5 +1,10 @@
 name: c3dp
 
+channels:
+  - conda-forge
+  - mcvine
+  - diffpy
+
 dependencies:
   - numpy
   - scipy
