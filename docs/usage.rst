@@ -13,4 +13,4 @@ optimization of neutron scattering instrument |c3dp|
 
 .. |c3dp| image:: image/with_python.png
    :scale: 20 %
-   :target: https://github.com/Fahima-Islam/c3dp/blob/documentation/notebooks/ClampCell_neutron_simulation_Example.ipynb
+   :target: https://github.com/Fahima-Islam/c3dp/blob/documentation/notebooks/collimator_optimization_for_clampcell_Example.ipynb
