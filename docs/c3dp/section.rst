@@ -1,5 +1,5 @@
 =================================================
-convert2nxs : calculating the properties of different sections of the collimator
+section : properties of different sections of the collimator
 =================================================
 
 .. automodule:: c3dp.instruments.collimator.section
