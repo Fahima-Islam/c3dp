@@ -1,17 +1,14 @@
-import numpy as np, os, sys
-sys.path.insert(0,'/home/fi0/dev/SNAP/SNAP_2018_package/braggedgemodeling/')
-import bem
-from bem import xscalc
-
+import numpy as np
+from braggedgemodeling import bem
 
 def d_hkl(scatterer):
     scat = bem.matter.loadCif('{}.cif'.format(scatterer))
     material = scat
-    xsc = xscalc.XSCalculator(material, 300)
+    xsc = bem.xscalc.XSCalculator(material, 300)
 
     peaks = xsc.diffpeaks
 
-    d=[p.d for p in peaks]
+    d=[p.d for p in peaks[5:6]]
     hkl=[p.hkl for p in peaks]
     F=[p.F for p in peaks ]
     d=np.hstack(d)
@@ -20,7 +17,8 @@ def d_hkl(scatterer):
 
     return (d,hkl,F)
 
-si_d, si_hkl, I_si= d_hkl('/home/fi0/Instrument_optimization/CIF_file_CLAMPCELL/Si')
+si_d, si_hkl, I_si= d_hkl('/home/fi0/Instrument_optimization/CIF_file_CLAMPCELL/Al')
+print (si_d)
 # si_d, si_hkl= d_hkl('/home/fi0/Instrument_optimization/CIF_file_CLAMPCELL/Si')
 #
 # print (si_hkl[0])
