@@ -1,51 +1,15 @@
 import numpy as np
-from instrument.geometry.pml import weave
 from instrument.geometry import shapes, operations
-from instrument.geometry.pml.Renderer import Renderer as base
 from support_only_for_collimator_unrefined import  Collimator_support
+from instruments.cellgeometry.render import renderin_the_file
 
-
-class File_inc_Renderer(base):
-    """
-
-    """
-    def _renderDocument(self, body):
-        self.onGeometry(body)
-        return
-    def header(self):
-        return []
-    def footer(self):
-        return []
-    def end(self):
-        return
-
-
-
-def write_file(fl_name,geom,scad_flag):
-    """
-
-    Parameters
-    ----------
-    fl_name
-    geom
-    scad_flag
-
-    Returns
-    -------
-
-    """
-    with open (fl_name,'wt') as file_h:
-        if scad_flag:
-            weave(geom,file_h,print_docs = False)
-        else:
-            weave(geom,file_h,print_docs = False,renderer=File_inc_Renderer(), author='')
 
 class Parameter_error (Exception):
     pass
 
 class Collimator_geom(object):
     """
-
+    the class to create different types of collimator geometries
     """
 
     def set_constraints(self, max_coll_height_detector=250., max_coll_width_detector=250.,
@@ -471,6 +435,12 @@ class Collimator_geom(object):
 
 
     def solid_pyramid(self):
+        """
+
+        Returns
+        -------
+
+        """
         scale_pyr = 1.1
         pyr_ht = (self.horizontal_arc_length_detector / np.deg2rad(self.horizontal_acceptance_angle)) * scale_pyr
 
@@ -529,7 +499,12 @@ class Collimator_geom(object):
 
 
     def generate_horizontal_blade_PLUS_border_list(self):
+        """
+        
+        Returns
+        -------
 
+        """
 
         height = self.horizontal_outer_radius * 1.2
 
@@ -1165,7 +1140,7 @@ class Collimator_geom(object):
         return (all_coll)
 
     def gen_collimators_xml(self, detector_angles=[-45, -135],collimator_Nosupport=True, multiple_collimator=True, scad_flag=False,
-                            coll_file="coll_geometry"):
+                            path_Name_to_Save='', coll_file="coll_geometry"):
         """
 
         Parameters
@@ -1174,12 +1149,13 @@ class Collimator_geom(object):
         collimator_Nosupport
         multiple_collimator
         scad_flag
+        path_Name_to_Save
         coll_file
 
         Returns
         -------
 
         """
-        write_file("{}.xml".format(coll_file), self.gen_collimators(detector_angles, multiple_collimator,collimator_Nosupport), scad_flag)
 
-
+        renderin_the_file(self.gen_collimators(detector_angles, multiple_collimator,collimator_Nosupport),
+                          coll_file, path_Name_to_Save, scad_flag)
