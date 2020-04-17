@@ -2,15 +2,17 @@ import numpy as np
 
 def collimator_inefficiency(diffraction_pattern,scattered_beam_intensity):
     """
-
+    calculing collimator inefficiency
     Parameters
     ----------
-    diffraction_pattern
-    scattered_beam_intensity
+    diffraction_pattern: tuple
+        tuple of d-spacing, intensity and error
+    scattered_beam_intensity: float
+        scattered beam intensity to be fed to collimator
 
     Returns
     -------
-
+        collimator performance : float
     """
 
     dcs, I_d, error = diffraction_pattern

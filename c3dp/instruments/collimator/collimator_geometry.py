@@ -48,49 +48,88 @@ class Collimator_geom(object):
         ----------
         max_coll_height_detector:float
             collimator maximum height at detector in mm
-        max_coll_width_detector
-        max_coll_length
-        min_channel_wall_thickness
-        min_channel_size
-        channel_size
-        wall_thickness
-        detector_dist_fr_sample_center
-        detector_size
-        collimator_front_end_from_center
-        truss_base_thickness
-        truss_height_factor
-        truss_curvature
-        trass_final_height_factor
-        beam_dist_support
-        touch_to_halfcircle
-        truss_blade_length
-        SNAP_acceptance_angle
-        initial_collimator_horizontal_channel_angle
-        initial_collimator_vertical_channel_angle
-        remove_blades
-        vertical_blade_index_to_remove
-        horizontal_blade_index_to_remove
-        remove_vertical_blades_manually
-        remove_horizontal_blades_manually
-        horizontal_blade_index_list_toRemove
-        vertical_blade_index_list_toRemove
-        vertical_odd_blades
-        vertical_even_blades
-        horizontal_odd_blades
-        horizontal_even_blades
-        top_border_odds
-        top_border_evens
-        bottom_border_odds
-        bottom_border_evens
-        left_border_odds
-        left_border_evens
-        right_border_odds
-        right_border_evens
-        no_right_border
-        no_left_border
-        no_top_border
-        no_bottom_border
-        collimator_parts
+        max_coll_width_detector: float
+            collimator maximum width at detector in mm
+        max_coll_length: float
+            length of the collimator in mm
+        min_channel_wall_thickness: float
+            minimum channel wall thickness in mm
+        min_channel_size: float
+            minimum channel size in mm
+        channel_size: float
+            channel size in mm
+        wall_thickness: float
+            thickness of the wall in mm
+        detector_dist_fr_sample_center: float
+            distance of detector from sample center in mm
+        detector_size: float
+            size of the detector in mm
+        collimator_front_end_from_center: float
+            distance of collimator front end from sample center in mm
+        truss_base_thickness: float
+            base thickness of truss in mm
+        truss_height_factor: float
+            the factor to multiply truss height with nominal value
+        truss_curvature: float
+            how much curvature of trass in radian
+        trass_final_height_factor: float
+            the factor to be multiplied with transs final height
+        beam_dist_support: float
+            distance between beam and support in mm
+        touch_to_halfcircleL : float
+            distance between touch of the truss and half circel in mm
+        truss_blade_length: float
+            length of truss blade  in mm
+        SNAP_acceptance_angle: Bool
+            if it is the acceptance angle of SNAP detector
+        initial_collimator_horizontal_channel_angle: float
+            horizontal angular opening of channel of first collimator if the collimator has different sections in degree
+        initial_collimator_vertical_channel_angle: float
+            vertical angular opening of channel of first collimator if the collimator has different sections in degree
+        remove_blades: bool
+            if you want to remove the blades, it is True
+        vertical_blade_index_to_remove: int
+            vertical blade position you want to remove
+        horizontal_blade_index_to_remove: int
+             horizontal blade position you want to remove
+        remove_vertical_blades_manually: bool
+            if you want to remove the vertical blade manually type True
+        remove_horizontal_blades_manually: bool
+            if you want to remove the horizontal blade manually type False
+        vertical_odd_blades: bool
+            if you want to remove vertical odd numbered blades type True
+        vertical_even_blades: bool
+            if you want to remove vertical even numbered blades type True
+        horizontal_odd_blades: bool
+            if you want to remove horizontal odd numbered blades type True
+        horizontal_even_blades: bool
+            if you want to remove horizontal even numbered blades type True
+        top_border_odds: bool
+            if you want to remove top border odd numbered blades type True
+        top_border_evens : bool
+            if you want to remove top border even numbered blades type True
+        bottom_border_odds: bool
+            if you want to remove bottom border odd numbered blades type True
+        bottom_border_evens: bool
+            if you want to remove bottom border even numbered blades type True
+        left_border_odds: bool
+            if you want to remove left border odd numbered blades type True
+        left_border_evens: bool
+            if you want to remove left border even numbered blades type True
+        right_border_odds: bool
+            if you want to remove right border odd numbered blades type True
+        right_border_evens: bool
+            if you want to remove right border even numbered blades type True
+        no_right_border: bool
+            if you want to right walls type True
+        no_left_border: bool
+            if you want to remove left wall type True
+        no_top_border: bool
+            if you want to remove top wall type true
+        no_bottom_border: bool
+            if you want to remove bottom wall type true
+        collimator_parts: int
+            how many parts of collimator you want
 
         Returns
         -------
@@ -183,7 +222,7 @@ class Collimator_geom(object):
 
     def support_parameters(self):
         """
-
+        creating collimator support
         Returns
         -------
 
@@ -205,13 +244,17 @@ class Collimator_geom(object):
 
     def set_parameters(self, vertical_number_channels, horizontal_number_channels, channel_length,wall_thickness= None):
         """
-
+        set parameter of the collimator to be optimized
         Parameters
         ----------
-        vertical_number_channels
-        horizontal_number_channels
-        channel_length
-        wall_thickness
+        vertical_number_channels: int
+            number of chanels in vertical direction
+        horizontal_number_channels: int
+            number of channels in horizontal direction
+        channel_length: float
+            length of the channel
+        wall_thickness: float
+            thickness of the wall
 
         Returns
         -------
@@ -343,14 +386,16 @@ class Collimator_geom(object):
 
     def Vertical_number_channels(self, channel_length):
         """
+        calculate number of channels in vertical direction from chanel length
 
         Parameters
         ----------
-        channel_length
+        channel_length: float
+            length of the channel in mm
 
         Returns
         -------
-
+            number of channels: int
         """
         vertical_blade_dist_fr_cell = self.vertical_outer_radius - (self.inner_radius + channel_length)
         vertical_blade_dist_fr_sample_center = vertical_blade_dist_fr_cell + self.inner_radius
@@ -367,14 +412,16 @@ class Collimator_geom(object):
 
     def Horizontal_number_channels(self,channel_length):
         """
+            calculate number of channels in horizontal direction from chanel length
 
         Parameters
         ----------
-        channel_length
+        channel_length: float
+            length of the channel in mm
 
         Returns
         -------
-
+            number of channels: int
         """
 
         horizontal_blade_dist_fr_cell = self.horizontal_outer_radius - (self.inner_radius + channel_length)
