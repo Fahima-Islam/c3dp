@@ -10,6 +10,7 @@ from reduction import reduce_nexasdata_using_mantid as red, rotate_detector_for_
     masking_nexus_givenKernel as mask
 from instruments.monitor import conf
 from peak import Peak
+from instruments.collimator.collimator_geometry_zigzag import create as create_collimator_geometry
 
 PARENT_DIR = os.path.abspath(os.pardir)
 
@@ -53,12 +54,39 @@ class Optimizer(object):
     """
     class to create essential steps for optimization of collimator and performing optimization
     """
+    @staticmethod ## allows to call this function as it is bound method
+    def _validate_names(param_names):
+        """
+        cheking if the given param names is in the argument of create_collimator _geometry function
+
+        Parameters
+        ----------
+        param_names: list
+            list of string for the collimator geometry to be optimized
+
+        Returns
+        -------
+        list
+            input parameter names if valid
+
+        Raises
+        ------
+        ValueError
+            when the param names is not in the argument list of the create_collimator_geometry function
+        """
+        valid_arguments= {'coll_front_end_from_center', 'max_coll_len', 'detector_width',
+                          'detector_height', 'min_channel_wall_thickness', 'min_channel_size' }
+        if set(param_names).issubset(valid_arguments) is False:
+            raise ValueError("params name is not valid, provide the params name from " + str(valid_arguments))
+        return param_names
+
 
     def parameters( self, Snap_angle = False, coll_sim = False  ,
                    source_file = 'clampcellSi_scattered-neutrons_1e9_det-50_105_new',
                     beam_path=DEFAULT_BEAM_PATH,
                     nexus_path = DEFAULT_NEXUS_PATH,
                     result_path=DEFAULT_RESULT_PATH,
+                    param_names = None,
                     template =None,
                     instrument_definition_file =None,
                     nodes=20,
@@ -76,6 +104,8 @@ class Optimizer(object):
                     sourceTosample_y = 0.0, sourceTosample_z = 0.0, moderatorTosample_z=-42.254,
                     angleMons = [-50, 105] ,
                     collimator_angles=[-45],
+                    max_coll_len = 165,
+                    wall_size =1.,
                     sampleTodetector_z=[0.5, 0.5], detector_width=[0.5,0.5], detector_height=[0.5, 0.5],
                     number_pixels_in_height=[256, 256],
                     number_pixels_in_width=[256, 256], number_of_box_in_height=[3,3],
@@ -190,6 +220,9 @@ class Optimizer(object):
         self.multiple_collimator = multiple_collimator
         self.collimator_Nosupport = collimator_Nosupport
         self.scad_flag = scad_flag
+        self.param_names= param_names
+        self.max_coll_len = max_coll_len
+        self.wall_size = wall_size
 
         for i in range(self.number_of_detectors):
             self.number_of_total_DetectorPixels += self.number_pixels_in_height[i]\
@@ -220,7 +253,32 @@ class Optimizer(object):
         output directory name of the simulation: string
 
         """
-        return self.sampleassembly_fileName
+        if self.coll_sim:
+            kwargs = dict(coll_front_end_from_center=self.coll_front_end_from_center,
+                    max_coll_len=self.max_coll_len,
+                    detector_width=self.collimator_detector_width,
+                    detector_height=self.collimator_detector_height,
+                    min_channel_wall_thickness=self.wall_size,
+                    min_channel_size=self.min_channel_size,
+                    Snap_angle=self.Snap_angle,
+                    detector_angles=self.collimator_angles,
+                    multiple_collimator=self.multiple_collimator,
+                    collimator_Nosupport=self.collimator_Nosupport,
+                    scad_flag=self.scad_flag,
+                    outputfile=self.path_tosave_collimator_geometry)
+
+            ## creating parameter dictionary with parameters name and values to be optimized
+            params_to_update = {key: value for key, value in zip(self.param_names, params) }
+            ##updating the arguments of create_collimator_geometry function with parameters to be optimizd
+            kwargs.update(params_to_update)
+            create_collimator_geometry(**kwargs)
+
+            name = "length_{}-dist_{}".format(*params)
+
+        else:
+            name = self.sampleassembly_fileName
+        return name
+
 
     def diffraction_pattern_calculation(self, params=[20, 20], instr=DEFAULT_INSTRUMENT_PATH, simdir=None):
         """
@@ -380,12 +438,14 @@ class Optimizer(object):
         except Parameter_error as e:
             return (1e10)
 
-    def optimize(self, params_bounds = [(2.0, 8.0), (17.0, 50.0)], population_size=4, maximum_iteration =5):
+    def optimize(self, param_names, params_bounds = [(2.0, 8.0), (17.0, 50.0)], population_size=4, maximum_iteration =5):
         """
         optimizing collimator geometry to minimize collimator inefficiency
 
         Parameters
         ----------
+        param_names : list
+            list of string of the colimator geometrical parameters to be optimized
         params_bounds: list
             list of the geometrical parameters to be optimized
         population_size: int
@@ -397,8 +457,8 @@ class Optimizer(object):
         -------
         optimized values: list of floats
         """
-        # objective_func.counter = 0
 
+        self.param_names = self._validate_names(param_names)
         result = differential_evolution(self.objective_func, params_bounds,popsize=population_size,maxiter=maximum_iteration)
         with open(os.path.join(self.result_path, 'optimized_Collimator_Dimension.dat'), "w") as res:
             res.write(result.x)
