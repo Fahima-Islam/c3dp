@@ -72,7 +72,7 @@ class Optimizer(object):
         Raises
         ------
         ValueError
-            when the param names is not in the argument list of the create_collimator_geometry function
+            when the param names is not in the argument list of the create_collimator_geometry.py function
         """
         valid_arguments= {'coll_front_end_from_center', 'max_coll_len', 'detector_width',
                           'detector_height', 'min_channel_wall_thickness', 'min_channel_size' }
@@ -269,7 +269,7 @@ class Optimizer(object):
 
             ## creating parameter dictionary with parameters name and values to be optimized
             params_to_update = {key: value for key, value in zip(self.param_names, params) }
-            ##updating the arguments of create_collimator_geometry function with parameters to be optimizd
+            ##updating the arguments of create_collimator_geometry.py function with parameters to be optimizd
             kwargs.update(params_to_update)
             create_collimator_geometry(**kwargs)
 

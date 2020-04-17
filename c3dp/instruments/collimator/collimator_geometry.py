@@ -3,7 +3,6 @@ from instrument.geometry import shapes, operations
 from support_only_for_collimator_unrefined import  Collimator_support
 from instruments.cellgeometry.render import renderin_the_file
 
-
 class Parameter_error (Exception):
     pass
 
@@ -47,7 +46,8 @@ class Collimator_geom(object):
 
         Parameters
         ----------
-        max_coll_height_detector
+        max_coll_height_detector:float
+            collimator maximum height at detector in mm
         max_coll_width_detector
         max_coll_length
         min_channel_wall_thickness
@@ -500,7 +500,7 @@ class Collimator_geom(object):
 
     def generate_horizontal_blade_PLUS_border_list(self):
         """
-        
+
         Returns
         -------
 
