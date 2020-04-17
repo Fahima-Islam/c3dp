@@ -1,4 +1,4 @@
-from collimator_zigzagBlade_old import Collimator_geom
+from collimator_geometry import Collimator_geom
 import os
 
 DEFAULT_PARENT_DIR = os.path.abspath(os.pardir)

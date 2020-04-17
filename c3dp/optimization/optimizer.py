@@ -10,7 +10,7 @@ from reduction import reduce_nexasdata_using_mantid as red, rotate_detector_for_
     masking_nexus_givenKernel as mask
 from instruments.monitor import conf
 from peak import Peak
-from instruments.collimator.collimator_geometry_zigzag import create as create_collimator_geometry
+from instruments.collimator.create_collimator_geometry import create as create_collimator_geometry
 
 PARENT_DIR = os.path.abspath(os.pardir)
 
