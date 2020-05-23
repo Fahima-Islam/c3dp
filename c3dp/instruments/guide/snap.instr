@@ -1,0 +1,335 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: SNAP
+*
+* %Identification
+* Originally Written by: Thomas Huegle
+* Updated by: Fahima Islam
+* Date: 
+* Origin: ORNL
+* Release: 
+* Version: 
+* %INSTRUMENT_SITE: SNS
+*
+* Instrument short description
+*
+* %Description
+* Instrument longer description (type, elements, usage...)
+*
+* Example: mcrun test.instr <parameters=values>
+*
+* %Parameters
+* Par1: [unit] Parameter1 description
+*
+* %Link
+* 
+*
+* %End
+*******************************************************************************/
+
+/* Change name of instrument and input parameters with default values */
+DEFINE INSTRUMENT SNAP()
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+double samplewidth = 0.001; 
+double sampleheight = 0.001;
+double rotyW, rpositionW, tpositionW, rotyE, rpositionE, tpositionE, roty3, rposition3, tposition3;
+double dc1_t0, dc2_t0, dc3_t0, t0chop_t0;	
+double lambda = 2.1;
+double frequency = 60;
+double det_arcW = -48.4997;
+double det_linW = 0;	
+double det_arcE = 90;	
+double det_linE = 0;	
+double det_arc3 = -115;	
+double det_lin3 = 0;	
+double slit1Width = 0.0555;
+double slit1Height = 0.0605;
+double slit2Width = 0.0403;
+double slit2Height = 0.0385;
+double slit3Width = 0.0349;
+double slit3Height = 0.0313;
+double slit4Width = 0.0226;
+double slit4Height = 0.0137;
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+//West Detector
+rotyW = det_arcW;
+rpositionW =  0.5 + det_linW;
+tpositionW = 180 + det_arcW;
+//East Detector
+rotyE = det_arcE;
+rpositionE =  0.5 + det_linE;
+tpositionE = 180 + det_arcE;
+//3rd Detector position
+roty3 =  det_arc3;
+rposition3 =  0.5 + det_lin3;
+tposition3 = 180 + det_arc3;
+//Chopper phases
+dc1_t0 = 5.84/3960*lambda;
+t0chop_t0 = 7.62/3960*lambda;
+dc2_t0 = 8.00/3960*lambda;
+dc3_t0 = 11.00/3960*lambda;
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+			
+///////////////// SOURCE 	/////////////////
+
+COMPONENT sourceMantid = SNS_source_rot(
+	filename = "/home/fi0/dev/SNAP/SNAP_2018_package/mcstas/a1G0AD-2-f5.dat", xwidth = 0.1, yheight = 0.12,
+	dist = 12.15, focus_xw = 0.035, focus_yh = 0.035, rot = -13.75,
+	Emin = 0.01, Emax = 10000)
+	AT (0, 0, 0) RELATIVE Origin	
+	ROTATED (0, 13.75, 0) RELATIVE Origin
+
+
+///////////////// CHOPPERS/////////////////
+
+COMPONENT BWchopper1 = DiskChopper(
+	theta_0 = 118, yheight = 0, nu = frequency, 
+	nslit = 1, delay = dc1_t0)
+	AT (0, 0, 5.84) RELATIVE Origin
+
+/*
+COMPONENT T0chopper = DiskChopper(
+	theta_0 = 131.8, radius = .319, yheight = .134, nu = frequency, 
+	nslit = 1, delay = t0chop_t0)
+	AT (0, 0, 7.62) RELATIVE Origin
+*/
+
+COMPONENT BWchopper2 = DiskChopper(
+	theta_0 = 152, yheight = 0, nu = frequency, 
+	nslit = 1, delay = dc2_t0)
+	AT (0, 0, 8.00) RELATIVE Origin
+
+COMPONENT BWchopper3 = DiskChopper(
+	theta_0 = 199, yheight = 0, nu = frequency, 
+	nslit = 1, delay = dc3_t0)
+	AT (0, 0, 11.00) RELATIVE Origin
+
+
+///////////////// GUIDE SYSTEMS (CHOOSE ONE)/////////////////
+
+
+///////////////// OLD (PARABOLIC) GUIDE/////////////////
+
+COMPONENT focusGuide_1 = Guide_tapering(
+	w1=0.0347, h1=0.03089, loutw=1.149994902347544, louth=1.1500001111231328, l=1.8485, 
+	option="parabolical", mx=3, my=3, segno=800,
+	R0=0.99, Qcx=0.021, Qcy=0.021, alphax=6.07, alphay=6.07, W=0.003)
+	AT(0, 0, 12.1514) RELATIVE Origin
+  
+COMPONENT focusGuide_2 = Guide_tapering(
+	w1=0.021500376375825123, h1=0.0191396721994396, loutw=0.649994902347544, louth=0.6500001111231328, l=0.5, 
+	option="parabolical", mx=4.5, my=4.5, segno=800,
+	R0=0.99, Qcx=0.021, Qcy=0.021, alphax=6.07, alphay=6.07, W=0.003)
+	AT(0, 0, 13.9999) RELATIVE Origin
+
+///////////////// OLD (PARABOLIC) GUIDE/////////////////
+
+/////////////////SLIT(FOR ACCURATE BEAM SIZE)///////////
+
+COMPONENT slit = Slit(
+    xwidth=0.005, 
+    yheight=0.01)
+AT (0, 0, 14.68) RELATIVE Origin 
+
+/////////////////SLIT(FOR ACCURATE BEAM SIZE)///////////
+
+
+///////////////// NEW GUIDE/////////////////
+
+/*
+COMPONENT newguide = Guide_tapering(
+	option="file=SNAPguide_new_final_final",
+	w1=0, h1=0, linw=0, loutw=0, linh=0, louth=0, l=2.355, 
+	R0=0.99, Qcx=0.021, Qcy=0.021, 
+	alphax=6.07, alphay=6.07, W=0.003, mx=6, my=6)
+	AT (0, 0, 12.1645) RELATIVE Origin
+*/
+///////////////// NEW GUIDE/////////////////
+
+///////////////// ENERGY SPECTRUM BEFORE SAMPLE/////////////////
+
+COMPONENT beforesampleSpectrumE_oldGuide = E_monitor(
+    nE=100, 
+    filename="emon_before_sample_oldG.dat", 
+    Emin=0, 
+    Emax=100, 
+    restore_neutron=1)
+AT (0, 0, 14.6999) RELATIVE Origin
+
+///////////////// ENERGY SPECTRUM BEFORE SAMPLE/////////////////
+
+
+///////////////// WAVELENGTH SPECTRUM BEFORE SAMPLE/////////////////
+
+COMPONENT BeforesampleSpectrumL = L_monitor(
+	nL = 1000, Lmin = 0, Lmax = 10, 
+	filename = "Lmon_before_sample_oldG.dat",
+	restore_neutron = 1)
+	AT (0, 0, 0.00002) RELATIVE PREVIOUS
+
+///////////////// WAVELENGTH SPECTRUM BEFORE SAMPLE/////////////////
+
+
+
+///////////////// SAVING NEUTRONS BEFORE SAMPLE/////////////////
+
+COMPONENT saveNeutrons = Virtual_output(filename="neutrons_before_sample_oldG.dat")
+AT (0, 0, 14.7) RELATIVE Origin
+
+///////////////// SAVING NEUTRONS BEFORE SAMPLE/////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+
+///////////////// SAMPLE POSITION/////////////////
+
+/*COMPONENT sampleMantid = Arm()
+	AT (0, 0, 15) RELATIVE Origin
+
+
+///////////////// ~CHOOSE ONE OF THE FOLLOWING CONFIGURATIONS~/////////////////
+
+
+///////////////// CONFIGURATION1: GENERAL BEAM CHARACTERISTICS /////////////////
+
+COMPONENT detectorPack = Arm()
+	AT (0, 0, 0) RELATIVE sampleMantid
+    
+COMPONENT imagePlate = PSD_monitor(
+	xwidth=0.05, yheight=0.05, 
+	nx=500, ny=500, 
+	filename="ImagePlate.psd",
+	restore_neutron=1)
+	AT (0, 0, 0.00001) RELATIVE detectorPack
+
+COMPONENT sampleSpectrumL = L_monitor(
+	xwidth = samplewidth, yheight = sampleheight,
+	nL = 1000, Lmin = 0, Lmax = 10, 
+	filename = "sampleSpectrum.L",
+	restore_neutron = 1)
+	AT (0, 0, 0.00002) RELATIVE detectorPack
+
+COMPONENT sampleSpectrumTOF = TOF_monitor(
+	xwidth = samplewidth, yheight = sampleheight,
+	nt = 10000, dt =10,  
+	filename = "sampleSpectrum.TOF",
+	restore_neutron = 1)
+	AT (0, 0, 0.00003) RELATIVE detectorPack
+  
+COMPONENT divergenceMonitor_xy = Divergence_monitor(	
+	xwidth = samplewidth, yheight = sampleheight,
+	maxdiv_h=2, maxdiv_v=2,
+	nh=1000, nv=1000, 
+	filename="Divergence.xy",
+	restore_neutron = 1)
+	AT (0, 0, 0.00004) RELATIVE detectorPack
+  
+COMPONENT divergenceMonitor_xL = DivLambda_monitor(
+	xwidth = samplewidth, yheight = sampleheight,
+	nL=1000, nh=1000, 
+	maxdiv_h=2, Lmin=0, Lmax=10,
+	filename="Divergence.xL")
+	AT (0, 0, 0.00005) RELATIVE detectorPack
+
+COMPONENT Divergence_xpos = DivPos_monitor(
+	nh=1000, ndiv=1000, filename="Divergence.Xpos",
+	xwidth = 0.01, yheight=0.001, maxdiv_h=2)
+	AT (0, 0, 0.00006) RELATIVE detectorPack
+
+COMPONENT divergenceMonitor_yL = DivLambda_monitor(
+	xwidth = sampleheight, yheight = samplewidth,
+	nL=1000, nh=1000, 
+	maxdiv_h=2, Lmin=0, Lmax=10,
+	filename="Divergence.yL")
+	AT (0, 0, 0.00007) RELATIVE detectorPack
+	ROTATED (0, 0, 90) RELATIVE detectorPack
+
+COMPONENT Divergence_ypos = DivPos_monitor(
+	nh=1000, ndiv=1000, filename="Divergence.Ypos",
+	xwidth = 0.01, yheight=0.001, maxdiv_h=2)
+	AT (0, 0, 0.00008) RELATIVE detectorPack
+	ROTATED (0, 0, 0) RELATIVE divergenceMonitor_yL
+
+
+///////////////// CONFIGURATION2: INSTRUMENT DETECTORS /////////////////
+///////////////// Set up for event based detection/////////////////
+
+/*COMPONENT sample =  PowderN(reflections = "/home/cades/McStas/Samples/sampleX", 
+  	radius = 0.0005, yheight = 0.001, 
+	Vc = 100.0)
+	AT (0, 0, 0) RELATIVE sampleMantid
+
+//WEST
+
+COMPONENT Arm1 = Arm()
+	AT (0,0,0) RELATIVE sampleMantid  
+	ROTATED (0,rotyW,0) ABSOLUTE
+
+COMPONENT nD_Mantid_1 = Monitor_nD(
+	xwidth = 0.5, yheight = 0.5,
+	options="mantid square x bins=810 y bins=810, neutron pixel min=0 t, list all neutrons")
+	AT (0, 0, rpositionW) RELATIVE Arm1
+	ROTATED (0,0,0) RELATIVE Arm1
+	GROUP Detectors
+
+//EAST
+
+COMPONENT Arm2 = Arm()
+	AT (0,0,0) RELATIVE sampleMantid  
+	ROTATED (0,rotyE,0) ABSOLUTE
+
+
+COMPONENT nD_Mantid_2 = Monitor_nD(
+	xwidth = 0.5, yheight = 0.5,
+	options="mantid square x bins=810 y bins=810, neutron pixel min=1000000 t, list all neutrons")
+	AT (0, 0, rpositionE) RELATIVE Arm2
+	ROTATED (0,0,0) RELATIVE Arm2
+	GROUP Detectors
+
+//3rd panel!
+
+COMPONENT Arm3 = Arm()
+	AT (0,0,0) RELATIVE sampleMantid  
+	ROTATED (0,roty3,0) ABSOLUTE
+
+COMPONENT nD_Mantid_3 = Monitor_nD(
+	xwidth = 0.5, yheight = 0.5,
+	options="mantid square x bins=810 y bins=810, neutron pixel min=2000000 t, list all neutrons")
+	AT (0, 0, rposition3) RELATIVE Arm3
+	ROTATED (0,0,0) RELATIVE Arm3
+	GROUP Detectors
+
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+  
+  
